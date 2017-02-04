@@ -1,6 +1,6 @@
 import Faye from 'faye/src/faye_browser';
 
-const client = new Faye.Client('http://localhost:8000/faye', { timeout: 60 });
+const client = new Faye.Client('/faye', { timeout: 60 });
 
 const clientsById = {};
 
