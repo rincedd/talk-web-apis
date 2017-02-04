@@ -11,6 +11,7 @@ export default class BatteryStatusSlide extends Component {
   };
 
   componentDidMount() {
+    this.props.clientManager.switchClients('battery');
     this._simulation = forceSimulation(this.props.clientManager.getClients())
       .velocityDecay(0.01)
       .force('x', forceX().strength(0.004))

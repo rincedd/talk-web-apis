@@ -13,6 +13,10 @@ export default class ClientManager extends EventEmitter {
     this.faye.subscribe('/battery', client => this._updateClient(client))
   }
 
+  switchClients(page) {
+    this.faye.publish('/switch', { page });
+  }
+
   getClients() {
     return Array.from(this.clientsById.values());
   }

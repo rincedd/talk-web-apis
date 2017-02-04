@@ -7,17 +7,29 @@ html, body {
     margin: 0;
     font-family: sans-serif;
     font-size: 24px;
+    text-align: center;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    padding: 10%;
+    transition: background-color 300ms ease-in;
 }
 
 .battery {
-    width: 100vw;
-    height: 100vh;
     background-color: #4e91cb;
-    text-align: center;
-    padding: 10%;
-    transition: all 300ms ease-in;
 }
 
 .battery.charging {
     background-color: #b3cb26;
+}
+
+.geolocation {
+    background-color: burlywood;
+}
+
+.error {
+    background-color: red;
+    color: white;
 }

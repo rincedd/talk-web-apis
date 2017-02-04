@@ -7,13 +7,13 @@
 
 # Web APIs
 ## useful
-* location (?)
+* geolocation (https needed!)
 * battery
 * File
 
 ## interesting
 * user media (video/audio), but not on mobile
-* notifications
+* notifications (not on mobile)
 * push notifications
 
 ## fancy

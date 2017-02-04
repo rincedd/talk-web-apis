@@ -40,7 +40,7 @@ export default class BatteryStatus extends Component {
 
   render() {
     if (navigator.getBattery) {
-      const classes = ['battery'];
+      const classes = ['slide battery'];
       if (this.batteryManager.charging) {
         classes.push('charging');
       }

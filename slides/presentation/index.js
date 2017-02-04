@@ -8,6 +8,7 @@ import preloader from 'spectacle/lib/utils/preloader';
 import createTheme from 'spectacle/lib/themes/default';
 import ClientManager from './client-manager';
 import BatteryStatusSlide from './battery-status';
+import GeolocationSlide from './geolocation';
 
 // Require CSS
 require("normalize.css");
@@ -47,6 +48,7 @@ export default class Presentation extends React.Component {
           <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
         </Slide>
         <BatteryStatusSlide clientManager={clientManager} />
+        <GeolocationSlide clientManager={clientManager} />
       </Deck>
     );
   }
