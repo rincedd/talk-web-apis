@@ -5,10 +5,10 @@ const fayeId = v4();
 const client = new Faye.Client('/faye', { timeout: 60 });
 client.publish('/connect', { id: fayeId });
 
-const sendData = batteryLevel => client.publish('/battery', { id: fayeId, batteryLevel });
+const sendData = ({ charging, level }) => client.publish('/battery', { id: fayeId, batteryLevel: level, charging });
 
 if (navigator.getBattery) {
-  navigator.getBattery().then(battery => sendData(battery.level));
+  navigator.getBattery().then(sendData);
 } else {
   sendData();
 }
