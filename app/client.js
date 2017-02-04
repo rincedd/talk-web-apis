@@ -12,16 +12,8 @@ client.publish('/connect', { id: fayeId, browser: new UAParser().getBrowser() })
 
 window.addEventListener('unload', () => client.publish('/disconnect', { id: fayeId }));
 
-const sendData = ({ charging, level }) => client.publish('/battery', { id: fayeId, batteryLevel: level, charging });
-
-if (navigator.getBattery) {
-  navigator.getBattery().then(sendData);
-} else {
-  sendData();
-}
-
 function App() {
-  return <BatteryStatus />;
+  return <BatteryStatus onChange={e => client.publish('/battery', { ...e, id: fayeId })} />;
 }
 
 render(<App />, document.querySelector('#app'));

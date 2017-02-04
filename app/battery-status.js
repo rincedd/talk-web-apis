@@ -1,26 +1,41 @@
-import React, { Component } from 'react';
+/* @flow */
+import React, { Component, PropTypes } from 'react';
+
+type BatteryInfo = {
+  charging: boolean,
+  batteryLevel: number
+}
+
+type Props = {
+  onChange: (BatteryInfo) => void
+}
 
 export default class BatteryStatus extends Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.batteryManager = {};
-    this._boundForceUpdate = this.forceUpdate.bind(this);
+    this._boundUpdate = this._update.bind(this);
   }
 
   componentDidMount() {
     if (navigator.getBattery) {
       navigator.getBattery().then(batteryManager => {
         this.batteryManager = batteryManager;
-        this.batteryManager.addEventListener('levelchange', this._boundForceUpdate);
-        this.batteryManager.addEventListener('chargingchange', this._boundForceUpdate);
-        this.forceUpdate();
+        this.batteryManager.addEventListener('levelchange', this._boundUpdate);
+        this.batteryManager.addEventListener('chargingchange', this._boundUpdate);
+        this._update();
       });
     }
   }
 
   componentWillUnmount() {
-    this.batteryManager.removeEventListener('levelchange', this._boundForceUpdate);
-    this.batteryManager.removeEventListener('chargingchange', this._boundForceUpdate);
+    this.batteryManager.removeEventListener('levelchange', this._boundUpdate);
+    this.batteryManager.removeEventListener('chargingchange', this._boundUpdate);
+  }
+
+  _update() {
+    this.props.onChange({ batteryLevel: this.batteryManager.level, charging: this.batteryManager.charging });
+    this.forceUpdate();
   }
 
   render() {
