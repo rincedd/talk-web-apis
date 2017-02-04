@@ -1,24 +1,31 @@
+## demo in talk
+* WebSockets ;-)
+* battery
+* vibrate
+* speech synthesis (say hello to everyone)
+* web audio (analyzer display, play collective chord?)
+
 # Web APIs
 ## useful
 * location (?)
 * battery
+* File
 
+## interesting
+* user media (video/audio), but not on mobile
+* notifications
+* push notifications
+
+## fancy
 * WebGL ?
 * WebVR ?
 * WebRTC ?
 
-## interesting
-* proximity (?)
-* user media (video/audio) -> perhaps combine with web audio analyzer to visualize?
-
-## fancy
+## funky
 * vibrate
-* ambient light
-* device motion (?)
-
-* web audio
 * speech synthesis? 
-* push notifications
-* notifications
-
+* device motion (?)
+* proximity (?)
+* ambient light
 * Web Bluetooth
+

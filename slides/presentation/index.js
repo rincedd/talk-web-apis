@@ -1,16 +1,18 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import { Deck, Heading, Slide, Text, Image } from 'spectacle';
+import { Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
 import createTheme from 'spectacle/lib/themes/default';
+import ClientManager from './client-manager';
+import BatteryStatusSlide from './battery-status';
 
 // Require CSS
 require("normalize.css");
 require("spectacle/lib/themes/default/index.css");
-
+require("./styles.css");
 
 const images = {
   logo: require("../assets/tng.svg"),
@@ -28,6 +30,8 @@ const theme = createTheme({
   secondary: "Helvetica"
 });
 
+const clientManager = new ClientManager();
+
 export default class Presentation extends React.Component {
   render() {
     return (
@@ -39,9 +43,10 @@ export default class Presentation extends React.Component {
           <Text margin="25px 0" textColor="tertiary" bold>Gerd Zschaler</Text>
           <Image src={images.logo} width="28%" />
         </Slide>
-        <Slide title="battery">
-          <Heading fit size={1}>Battery Status API</Heading>
+        <Slide>
+          <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
         </Slide>
+        <BatteryStatusSlide clientManager={clientManager} />
       </Deck>
     );
   }
