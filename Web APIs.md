@@ -1,18 +1,24 @@
 # Web APIs
-* battery
+## useful
 * location (?)
+* battery
+
+* WebGL ?
+* WebVR ?
+* WebRTC ?
+
+## interesting
 * proximity (?)
 * user media (video/audio) -> perhaps combine with web audio analyzer to visualize?
+
+## fancy
+* vibrate
 * ambient light
-* touch events
 * device motion (?)
 
-* vibrate
 * web audio
 * speech synthesis? 
 * push notifications
 * notifications
 
-* WebGL ?
-* WebVR ?
-* WebRTC ?
+* Web Bluetooth
