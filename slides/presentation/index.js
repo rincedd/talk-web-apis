@@ -9,6 +9,7 @@ import createTheme from 'spectacle/lib/themes/default';
 import ClientManager from './client-manager';
 import BatteryStatusSlide from './battery-status';
 import GeolocationSlide from './geolocation';
+import SpeechSynthesisSlide from './speech-synthesis';
 
 // Require CSS
 require("normalize.css");
@@ -49,6 +50,7 @@ export default class Presentation extends React.Component {
         </Slide>
         <BatteryStatusSlide clientManager={clientManager} />
         <GeolocationSlide clientManager={clientManager} />
+        <SpeechSynthesisSlide clientManager={clientManager} />
       </Deck>
     );
   }

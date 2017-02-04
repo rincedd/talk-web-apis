@@ -1,17 +1,7 @@
-/* @flow */
 import React, { Component, PropTypes } from 'react';
 
-type BatteryInfo = {
-  charging: boolean,
-  batteryLevel: number
-}
-
-type Props = {
-  onChange: (BatteryInfo) => void
-}
-
 export default class BatteryStatus extends Component {
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.batteryManager = {};
     this._boundUpdate = this._update.bind(this);

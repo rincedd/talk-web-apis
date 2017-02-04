@@ -8,17 +8,24 @@ export default class ClientManager extends EventEmitter {
     super();
     this.faye = new Faye.Client(FAYE_URL, { timeout: 60 });
     this.clientsById = new Map();
+    this.currentPage = '';
     this.faye.subscribe('/connect', client => this._updateClient(client));
     this.faye.subscribe('/disconnect', client => this._removeClient(client));
-    this.faye.subscribe('/battery', client => this._updateClient(client))
+    this.faye.subscribe('/battery', client => this._updateClient(client));
+    setInterval(() => this.faye.publish('/heartbeat', { page: this.currentPage }), 2000);
   }
 
   switchClients(page) {
+    this.currentPage = page;
     this.faye.publish('/switch', { page });
   }
 
   getClients() {
     return Array.from(this.clientsById.values());
+  }
+
+  triggerSpeech(text) {
+    this.faye.publish('/speech', { text });
   }
 
   _updateClient(client) {

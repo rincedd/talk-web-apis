@@ -29,6 +29,10 @@ html, body {
     background-color: burlywood;
 }
 
+.speech {
+    background-color: #caa9de;
+}
+
 .error {
     background-color: red;
     color: white;

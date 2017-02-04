@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import BatteryStatus from './battery-status';
 import Geolocation from './geolocation';
+import SpeechSynthesis from './speech-synthesis';
 import './client.css';
 
 const fayeId = v4();
@@ -16,15 +17,19 @@ window.addEventListener('unload', () => fayeClient.publish('/disconnect', { id: 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { page: '' };
+    this.state = { page: '', speechSynthesisText: '' };
   }
 
   componentDidMount() {
-    this.subscription = fayeClient.subscribe('/switch', ({ page }) => this.setState({ page }));
+    this.heartbeatSubscription = fayeClient.subscribe('/heartbeat', ({ page }) => this.setState({ page }));
+    this.pageSubscription = fayeClient.subscribe('/switch', ({ page }) => this.setState({ page }));
+    this.speechSubscription = fayeClient.subscribe('/speech', ({ text }) => this.setState({ speechSynthesisText: text }));
   }
 
   componentWillUnmount() {
-    this.subscription.cancel();
+    this.heartbeatSubscription.cancel();
+    this.pageSubscription.cancel();
+    this.speechSubscription.cancel();
   }
 
   render() {
@@ -33,6 +38,8 @@ class App extends Component {
         return <BatteryStatus onChange={e => fayeClient.publish('/battery', { ...e, id: fayeId })} />;
       case 'geolocation':
         return <Geolocation />;
+      case 'speech':
+        return <SpeechSynthesis text={this.state.speechSynthesisText} />;
       default:
         return <div>Hello!</div>;
     }
