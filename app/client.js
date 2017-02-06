@@ -14,7 +14,7 @@ fayeClient.publish('/connect', { id: fayeId, browser: new UAParser().getBrowser(
 
 window.addEventListener('unload', () => fayeClient.publish('/disconnect', { id: fayeId }));
 
-const SOS_PATTERN = [100, 30, 100, 30, 100, 200, 200, 30, 200, 30, 200, 200, 100, 30, 100, 30, 100];
+const SOS_PATTERN = [120, 60, 120, 60, 120, 240, 240, 60, 240, 60, 240, 240, 120, 60, 120, 60, 120];
 const vibrate = (navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || (() => {
 })).bind(navigator);
 
