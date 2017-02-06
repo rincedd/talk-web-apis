@@ -14,6 +14,10 @@ fayeClient.publish('/connect', { id: fayeId, browser: new UAParser().getBrowser(
 
 window.addEventListener('unload', () => fayeClient.publish('/disconnect', { id: fayeId }));
 
+const SOS_PATTERN = [100, 30, 100, 30, 100, 200, 200, 30, 200, 30, 200, 200, 100, 30, 100, 30, 100];
+const vibrate = (navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || (() => {
+})).bind(navigator);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -24,12 +28,14 @@ class App extends Component {
     this.heartbeatSubscription = fayeClient.subscribe('/heartbeat', ({ page }) => this.setState({ page }));
     this.pageSubscription = fayeClient.subscribe('/switch', ({ page }) => this.setState({ page }));
     this.speechSubscription = fayeClient.subscribe('/speech', ({ text }) => this.setState({ speechSynthesisText: text }));
+    this.vibrateSubscription = fayeClient.subscribe('/vibrate', ({ pattern = SOS_PATTERN }) => vibrate(pattern));
   }
 
   componentWillUnmount() {
     this.heartbeatSubscription.cancel();
     this.pageSubscription.cancel();
     this.speechSubscription.cancel();
+    this.vibrateSubscription.cancel();
   }
 
   render() {

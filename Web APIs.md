@@ -1,13 +1,13 @@
 ## demo in talk
 * WebSockets ;-)
-* battery
+* battery (/)
 * vibrate
-* speech synthesis (say hello to everyone)
+* speech synthesis (say hello to everyone) (/)
 * web audio (analyzer display, play collective chord?)
 
 # Web APIs
 ## useful
-* geolocation (https needed!)
+* geolocation (https needed!) (/)
 * battery
 * File
 

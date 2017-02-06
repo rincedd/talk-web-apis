@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { CodePane, Fill, Fit, Layout, Slide, Heading } from 'spectacle';
 
 const MAPS_API_KEY = process.env.npm_config_google_api_key;
 const CALLBACK_NAME = '__gmInitMap';
 
 export default class GeolocationSlide extends Component {
+  static propTypes = {
+    clientManager: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = { ready: false, markers: new Map() };

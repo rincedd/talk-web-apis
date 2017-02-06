@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Slide, Heading } from 'spectacle';
 
 export default class SpeechSynthesisSlide extends Component {
+  static propTypes = {
+    clientManager: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     this.props.clientManager.switchClients('speech');
   }

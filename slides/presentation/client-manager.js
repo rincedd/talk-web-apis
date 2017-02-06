@@ -28,6 +28,10 @@ export default class ClientManager extends EventEmitter {
     this.faye.publish('/speech', { text });
   }
 
+  triggerVibrate(pattern) {
+    this.faye.publish('/vibrate', { pattern });
+  }
+
   _updateClient(client) {
     if (this.clientsById.has(client.id)) {
       Object.assign(this.clientsById.get(client.id), client);

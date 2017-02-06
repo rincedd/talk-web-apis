@@ -10,6 +10,7 @@ import ClientManager from './client-manager';
 import BatteryStatusSlide from './battery-status';
 import GeolocationSlide from './geolocation';
 import SpeechSynthesisSlide from './speech-synthesis';
+import MiscSlide from './misc';
 
 // Require CSS
 require("normalize.css");
@@ -51,6 +52,7 @@ export default class Presentation extends React.Component {
         <BatteryStatusSlide clientManager={clientManager} />
         <GeolocationSlide clientManager={clientManager} />
         <SpeechSynthesisSlide clientManager={clientManager} />
+        <MiscSlide clientManager={clientManager} />
       </Deck>
     );
   }
