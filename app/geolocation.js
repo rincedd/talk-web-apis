@@ -8,11 +8,16 @@ export default class Geolocation extends Component {
 
   componentDidMount() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => this.setState({
-        position,
-        error: null
-      }), error => this.setState({ error }));
+      navigator.geolocation.getCurrentPosition(p => this._updatePosition(p), error => this.setState({ error }));
     }
+  }
+
+  _updatePosition(position) {
+    this.props.onChange({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+    this.setState({
+      position,
+      error: null
+    });
   }
 
   render() {

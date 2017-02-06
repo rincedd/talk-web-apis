@@ -14,6 +14,7 @@ module.exports = {
     publicPath: "/dist/"
   },
   plugins: [
+    new webpack.EnvironmentPlugin(['npm_config_google_api_key']),
     new webpack.DefinePlugin({
       "process.env": {
         "NODE_ENV": JSON.stringify("production")

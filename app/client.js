@@ -35,9 +35,9 @@ class App extends Component {
   render() {
     switch (this.state.page) {
       case 'battery':
-        return <BatteryStatus onChange={e => fayeClient.publish('/battery', { ...e, id: fayeId })} />;
+        return <BatteryStatus onChange={e => fayeClient.publish('/update/battery', { ...e, id: fayeId })} />;
       case 'geolocation':
-        return <Geolocation />;
+        return <Geolocation onChange={e => fayeClient.publish('/update/geolocation', { ...e, id: fayeId })} />;
       case 'speech':
         return <SpeechSynthesis text={this.state.speechSynthesisText} />;
       default:
