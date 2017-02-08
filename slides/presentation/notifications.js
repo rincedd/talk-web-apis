@@ -33,7 +33,7 @@ export default class NotificationsSlide extends Component {
 
   render() {
     return <div>
-      <Heading size={3} fit margin="2rem">sytem-level popup notifications</Heading>
+      <Heading size={3} fit margin="2rem">system-level popup notifications</Heading>
       <Layout>
         <Fill>
           <button disabled={!this.state.notificationsAllowed} onClick={() => this.notifyMe()}>Notify me</button>
