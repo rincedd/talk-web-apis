@@ -27,7 +27,7 @@ export default class UserMediaSlide extends Component {
         .then(stream => {
           this._stream = stream;
           this._video.src = URL.createObjectURL(stream);
-          this._video.onloadedmetadata = () => this._video.play();
+          this._video.onloadedmetadata = () => this._video && this._video.play();
         })
         .catch(() => this.setState({ supported: false }));
     }

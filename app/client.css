@@ -33,6 +33,10 @@ html, body {
     background-color: #caa9de;
 }
 
+.webaudio {
+    background-color: #300a76;
+}
+
 .error {
     background-color: red;
     color: white;

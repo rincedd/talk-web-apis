@@ -13,6 +13,7 @@ import SpeechSynthesisSlide from './speech-synthesis';
 import NotificationsSlide from './notifications';
 import MiscSlide from './misc';
 import UserMediaSlide from './usermedia';
+import WebAudioSlide from './web-audio';
 
 // Require CSS
 require('normalize.css');
@@ -80,6 +81,7 @@ export default class Presentation extends React.Component {
           <Heading size={2} caps textColor="tertiary">go crazy</Heading>
         </Slide>
         <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
+        <Slide><WebAudioSlide clientManager={clientManager} /></Slide>
         <Slide>
           <Heading size={3}>Links</Heading>
           <List>

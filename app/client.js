@@ -6,6 +6,7 @@ import { render } from 'react-dom';
 import BatteryStatus from './battery-status';
 import Geolocation from './geolocation';
 import SpeechSynthesis from './speech-synthesis';
+import WebAudio from './web-audio';
 import './client.css';
 
 const fayeId = v4();
@@ -46,6 +47,8 @@ class App extends Component {
         return <Geolocation onChange={e => fayeClient.publish('/update/geolocation', { ...e, id: fayeId })} />;
       case 'speech':
         return <SpeechSynthesis text={this.state.speechSynthesisText} />;
+      case 'webaudio':
+        return <WebAudio />;
       default:
         return <div>Hello!</div>;
     }

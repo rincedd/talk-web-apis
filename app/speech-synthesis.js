@@ -36,7 +36,6 @@ export default class SpeechSynthesis extends Component {
     if (voice) {
       const utterance = new SpeechSynthesisUtterance(this.props.text);
       utterance.voice = voice;
-      utterance.pitch = 1 + Math.random() * 0.5;
       window.speechSynthesis.speak(utterance);
     }
   }
