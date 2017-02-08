@@ -12,26 +12,27 @@ import GeolocationSlide from './geolocation';
 import SpeechSynthesisSlide from './speech-synthesis';
 import NotificationsSlide from './notifications';
 import MiscSlide from './misc';
+import UserMediaSlide from './usermedia';
 
 // Require CSS
-require("normalize.css");
-require("spectacle/lib/themes/default/index.css");
-require("./styles.css");
+require('normalize.css');
+require('spectacle/lib/themes/default/index.css');
+require('./styles.css');
 
 const images = {
-  logo: require("../assets/tng.svg"),
+  logo: require('../assets/tng.svg'),
 };
 
 preloader(images);
 
 const theme = createTheme({
-  primary: "white",
-  secondary: "#1F2022",
-  tertiary: "#03A9FC",
-  quartenary: "#CECECE"
+  primary: 'white',
+  secondary: '#1F2022',
+  tertiary: '#03A9FC',
+  quartenary: '#CECECE'
 }, {
-  primary: "Montserrat",
-  secondary: "Helvetica"
+  primary: 'Montserrat',
+  secondary: 'Helvetica'
 });
 
 const clientManager = new ClientManager();
@@ -39,8 +40,8 @@ const clientManager = new ClientManager();
 export default class Presentation extends React.Component {
   render() {
     return (
-      <Deck transition={["slide"]} transitionDuration={500} theme={theme}>
-        <Slide id="title" transition={["zoom"]}>
+      <Deck transition={['slide']} transitionDuration={500} theme={theme}>
+        <Slide id="title" transition={['zoom']}>
           <Heading size={1} caps textColor="secondary">Web APIs in modern browsers</Heading>
           <Text margin="25px 0" bold textColor="tertiary">Gerd Zschaler</Text>
           <Image src={images.logo} width="28%" />
@@ -71,13 +72,19 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading caps fit size={3} textColor="tertiary">interact with the OS/device</Heading>
         </Slide>
+        <Slide><UserMediaSlide /></Slide>
         <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
         <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
-        <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
         <Slide><MiscSlide clientManager={clientManager} /></Slide>
+        <Slide>
+          <Heading size={2} caps textColor="tertiary">go crazy</Heading>
+        </Slide>
+        <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
         <Slide>
           <Heading size={3}>Links</Heading>
           <List>
+            <ListItem><Link href="http://devdocs.io/dom/">devdocs.io/dom</Link></ListItem>
+            <ListItem><Link href="http://caniuse.com/">caniuse.com</Link></ListItem>
             <ListItem>cat icon by <Link href="http://iconka.com/">iconka</Link></ListItem>
           </List>
         </Slide>
