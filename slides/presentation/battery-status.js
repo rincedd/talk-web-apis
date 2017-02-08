@@ -67,7 +67,7 @@ export default class BatteryStatusSlide extends Component {
             </svg>
           </Fill>
           <Fit>
-            <CodePane lang="javascript" source={codeExample} />
+            <CodePane textSize="1rem" lang="javascript" source={codeExample} />
           </Fit>
         </Layout>
       </div>

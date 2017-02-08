@@ -58,7 +58,7 @@ export default class WebAudio extends Component {
       canvasCtx.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
       canvasCtx.lineWidth = 2;
-      canvasCtx.strokeStyle = '#ececec';
+      canvasCtx.strokeStyle = '#eeeeee';
 
       canvasCtx.beginPath();
 
@@ -100,7 +100,7 @@ export default class WebAudio extends Component {
     }
     return <div className="slide webaudio">
       <div>WebAudio</div>
-      <canvas width={400} height={400} ref={c => this._canvas = c} />
+      <canvas width="600" height="300" ref={c => this._canvas = c} />
     </div>;
   }
 }

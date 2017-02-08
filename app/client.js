@@ -50,7 +50,7 @@ class App extends Component {
       case 'webaudio':
         return <WebAudio />;
       default:
-        return <div>Hello!</div>;
+        return <div className="slide">Hello!</div>;
     }
   }
 }

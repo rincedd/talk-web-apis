@@ -67,7 +67,7 @@ export default class GeolocationSlide extends Component {
           <div style={{ height: '400px' }} ref={el => this._el = el} />
         </Fill>
         <Fit>
-          <CodePane lang="javascript" source={require('raw-loader!./geolocation.sample')} />
+          <CodePane textSize="1rem" lang="javascript" source={require('raw-loader!./geolocation.sample')} />
         </Fit>
       </Layout>
     </div>;
