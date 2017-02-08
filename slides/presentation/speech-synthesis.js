@@ -17,7 +17,7 @@ export default class SpeechSynthesisSlide extends Component {
 
   render() {
     return <div>
-      <Heading lineHeight={1.1} size={3}>Speech Synthesis API</Heading>
+      <Heading lineHeight={1.1} size={3}>speech synthesis API</Heading>
       <form onSubmit={e => this._onFormSubmit(e)}>
         <input type="text" ref={i => this._input = i} />
         <button type="submit">Say it</button>

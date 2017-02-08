@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CodePane, Heading, Text, Layout, Fill } from 'spectacle';
+import { CodePane, Heading, Layout, Fill } from 'spectacle';
 
 const example = `Notification.requestPermission().then(result => {
   if (result === 'granted') {
@@ -33,8 +33,7 @@ export default class NotificationsSlide extends Component {
 
   render() {
     return <div>
-      <Heading size={3}>Notifications</Heading>
-      <Text margin="2rem">system-level popup notifications</Text>
+      <Heading size={3} fit margin="2rem">sytem-level popup notifications</Heading>
       <Layout>
         <Fill>
           <button disabled={!this.state.notificationsAllowed} onClick={() => this.notifyMe()}>Notify me</button>

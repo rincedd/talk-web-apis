@@ -59,7 +59,7 @@ export default class BatteryStatusSlide extends Component {
   render() {
     return (
       <div>
-        <Heading lineHeight={1.1} size={3}>Battery Status API</Heading>
+        <Heading lineHeight={1.1} size={3}>battery status API</Heading>
         <Layout>
           <Fill>
             <svg className="bubble-chart" ref={e => this._svg = e}>

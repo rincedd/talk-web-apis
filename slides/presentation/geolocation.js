@@ -61,7 +61,7 @@ export default class GeolocationSlide extends Component {
 
   render() {
     return <div>
-      <Heading size={3}>Geolocation API</Heading>
+      <Heading size={3}>geolocation API</Heading>
       <Layout>
         <Fill>
           <div style={{ height: '400px' }} ref={el => this._el = el} />

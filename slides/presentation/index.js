@@ -1,7 +1,7 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import { CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
+import { Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
@@ -40,24 +40,36 @@ export default class Presentation extends React.Component {
   render() {
     return (
       <Deck transition={["slide"]} transitionDuration={500} theme={theme}>
-        <Slide id="title" transition={["zoom"]} bgColor="primary">
-          <Heading size={1} fit caps lineHeight={1} textColor="secondary">
-            Web APIs in modern browsers
-          </Heading>
-          <Text margin="25px 0" textColor="tertiary" bold>Gerd Zschaler</Text>
+        <Slide id="title" transition={["zoom"]}>
+          <Heading size={1} caps textColor="secondary">Web APIs in modern browsers</Heading>
+          <Text margin="25px 0" bold textColor="tertiary">Gerd Zschaler</Text>
           <Image src={images.logo} width="28%" />
         </Slide>
         <Slide>
           <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
         </Slide>
         <Slide>
-          <Heading fit size={3}>File, Blob, object URLs</Heading>
-          <Text fit>client-side handling of files and binary data</Text>
-          <CodePane lang="javascript" source={require('raw-loader!./file.sample')} />
+          <Heading size={2} caps fit textColor="tertiary">handle data on the client-side</Heading>
+        </Slide>
+        <Slide>
+          <Heading size={3}>binary data</Heading>
+          <List>
+            <ListItem>typed arrays <Code>Uint8Array</Code>...</ListItem>
+            <ListItem><Code>ArrayBuffer</Code></ListItem>
+            <ListItem><Code>File</Code>, <Code>Blob</Code></ListItem>
+            <ListItem><Code>URL.createObjectURL()</Code></ListItem>
+          </List>
+        </Slide>
+        <Slide>
+          <Heading size={3} margin="1rem">reading/generating files</Heading>
+          <CodePane textSize="1rem" lang="javascript" source={require('raw-loader!./file.sample')} />
+        </Slide>
+        <Slide>
+          <Heading size={2} caps textColor="tertiary">notify the user</Heading>
         </Slide>
         <Slide><NotificationsSlide /></Slide>
         <Slide>
-          <Text>interact with the OS/device</Text>
+          <Heading caps fit size={3} textColor="tertiary">interact with the OS/device</Heading>
         </Slide>
         <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
         <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
