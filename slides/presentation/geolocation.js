@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { CodePane, Fill, Fit, Layout, Slide, Heading } from 'spectacle';
+import { CodePane, Fill, Fit, Layout, Heading } from 'spectacle';
 
 const MAPS_API_KEY = process.env.npm_config_google_api_key;
 const CALLBACK_NAME = '__gmInitMap';
@@ -60,7 +60,7 @@ export default class GeolocationSlide extends Component {
   }
 
   render() {
-    return <Slide>
+    return <div>
       <Heading size={3}>Geolocation API</Heading>
       <Layout>
         <Fill>
@@ -70,6 +70,6 @@ export default class GeolocationSlide extends Component {
           <CodePane lang="javascript" source={require('raw-loader!./geolocation.sample')} />
         </Fit>
       </Layout>
-    </Slide>;
+    </div>;
   }
 }

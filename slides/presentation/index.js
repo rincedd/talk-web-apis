@@ -1,7 +1,7 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import { Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
+import { CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
@@ -10,6 +10,7 @@ import ClientManager from './client-manager';
 import BatteryStatusSlide from './battery-status';
 import GeolocationSlide from './geolocation';
 import SpeechSynthesisSlide from './speech-synthesis';
+import NotificationsSlide from './notifications';
 import MiscSlide from './misc';
 
 // Require CSS
@@ -38,7 +39,7 @@ const clientManager = new ClientManager();
 export default class Presentation extends React.Component {
   render() {
     return (
-      <Deck transition={["zoom", "slide"]} transitionDuration={500} theme={theme}>
+      <Deck transition={["slide"]} transitionDuration={500} theme={theme}>
         <Slide id="title" transition={["zoom"]} bgColor="primary">
           <Heading size={1} fit caps lineHeight={1} textColor="secondary">
             Web APIs in modern browsers
@@ -49,10 +50,25 @@ export default class Presentation extends React.Component {
         <Slide>
           <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
         </Slide>
-        <BatteryStatusSlide clientManager={clientManager} />
-        <GeolocationSlide clientManager={clientManager} />
-        <SpeechSynthesisSlide clientManager={clientManager} />
-        <MiscSlide clientManager={clientManager} />
+        <Slide>
+          <Heading fit size={3}>File, Blob, object URLs</Heading>
+          <Text fit>client-side handling of files and binary data</Text>
+          <CodePane lang="javascript" source={require('raw-loader!./file.sample')} />
+        </Slide>
+        <Slide><NotificationsSlide /></Slide>
+        <Slide>
+          <Text>interact with the OS/device</Text>
+        </Slide>
+        <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
+        <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
+        <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
+        <Slide><MiscSlide clientManager={clientManager} /></Slide>
+        <Slide>
+          <Heading size={3}>Links</Heading>
+          <List>
+            <ListItem>cat icon by <Link href="http://iconka.com/">iconka</Link></ListItem>
+          </List>
+        </Slide>
       </Deck>
     );
   }

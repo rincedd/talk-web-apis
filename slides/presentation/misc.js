@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Slide, Text } from 'spectacle';
+import { Text } from 'spectacle';
 
 export default class MiscSlide extends Component {
   static propTypes = {
@@ -11,10 +11,10 @@ export default class MiscSlide extends Component {
   }
 
   render() {
-    return <Slide>
+    return <div>
       <Text>
         <button onClick={() => this.props.clientManager.triggerVibrate()}>Vibrate!</button>
       </Text>
-    </Slide>
+    </div>
   }
 }

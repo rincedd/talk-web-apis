@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Slide, Heading, Fill, Fit, Layout, CodePane } from 'spectacle';
+import { Heading, Fill, Fit, Layout, CodePane } from 'spectacle';
 import { select, interpolateViridis, forceSimulation, forceCollide, forceX, forceY } from 'd3';
 import codeExample from 'raw-loader!./battery.sample';
 
@@ -58,7 +58,7 @@ export default class BatteryStatusSlide extends Component {
 
   render() {
     return (
-      <Slide id="battery">
+      <div>
         <Heading lineHeight={1.1} size={3}>Battery Status API</Heading>
         <Layout>
           <Fill>
@@ -70,7 +70,7 @@ export default class BatteryStatusSlide extends Component {
             <CodePane lang="javascript" source={codeExample} />
           </Fit>
         </Layout>
-      </Slide>
+      </div>
     );
   }
 }

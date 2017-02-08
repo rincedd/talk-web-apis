@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Slide, Heading } from 'spectacle';
+import { Heading } from 'spectacle';
 
 export default class SpeechSynthesisSlide extends Component {
   static propTypes = {
@@ -16,12 +16,12 @@ export default class SpeechSynthesisSlide extends Component {
   }
 
   render() {
-    return <Slide>
+    return <div>
       <Heading lineHeight={1.1} size={3}>Speech Synthesis API</Heading>
       <form onSubmit={e => this._onFormSubmit(e)}>
         <input type="text" ref={i => this._input = i} />
         <button type="submit">Say it</button>
       </form>
-    </Slide>;
+    </div>;
   }
 }
