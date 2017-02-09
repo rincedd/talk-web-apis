@@ -74,8 +74,9 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading caps fit size={3} textColor="tertiary">interact with the OS/device</Heading>
         </Slide>
-        <Slide><UserMediaSlide clientManager={clientManager} /></Slide>
+        <Slide><Heading fit size={4}>bit.ly link here</Heading></Slide>{/*TODO add link */}
         <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
+        <Slide><UserMediaSlide clientManager={clientManager} /></Slide>
         <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
         <Slide><MiscSlide clientManager={clientManager} /></Slide>
         <Slide>
