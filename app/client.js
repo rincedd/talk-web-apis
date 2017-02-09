@@ -7,6 +7,7 @@ import BatteryStatus from './battery-status';
 import Geolocation from './geolocation';
 import SpeechSynthesis from './speech-synthesis';
 import WebAudio from './web-audio';
+import VideoStream from './video-stream';
 import './client.css';
 
 const fayeId = v4();
@@ -45,6 +46,8 @@ class App extends Component {
         return <BatteryStatus onChange={e => fayeClient.publish('/update/battery', { ...e, id: fayeId })} />;
       case 'geolocation':
         return <Geolocation onChange={e => fayeClient.publish('/update/geolocation', { ...e, id: fayeId })} />;
+      case 'webrtc':
+        return <VideoStream pubSubClient={fayeClient} pubSubId={fayeId} />;
       case 'speech':
         return <SpeechSynthesis text={this.state.speechSynthesisText} />;
       case 'webaudio':

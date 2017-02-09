@@ -1,5 +1,6 @@
 import Faye from 'faye/src/faye_browser';
 import { EventEmitter } from 'events';
+import Peer from 'simple-peer';
 
 const FAYE_URL = 'http://localhost:8000/faye';
 
@@ -12,6 +13,11 @@ export default class ClientManager extends EventEmitter {
     this.faye.subscribe('/connect', client => this._updateClient(client));
     this.faye.subscribe('/disconnect', client => this._removeClient(client));
     this.faye.subscribe('/update/*', client => this._updateClient(client));
+    this.faye.subscribe('/signal', ({ signal, id }) => {
+      if (id) {
+        this.rtcInitiator && this.rtcInitiator.signal(signal);
+      }
+    });
     setInterval(() => this.faye.publish('/heartbeat', { page: this.currentPage }), 2000);
   }
 
@@ -30,6 +36,16 @@ export default class ClientManager extends EventEmitter {
 
   triggerVibrate(pattern) {
     this.faye.publish('/vibrate', { pattern });
+  }
+
+  streamToClients(stream) {
+    this.rtcInitiator = new Peer({ initiator: true, stream });
+    this.rtcInitiator.on('error', err => console.error('WebRTC error', err));
+    this.rtcInitiator.on('signal', signal => this.faye.publish('/signal', { signal }));
+  }
+
+  stopStreaming() {
+    this.rtcInitiator.destroy(() => this.rtcInitiator = null);
   }
 
   _updateClient(client) {

@@ -1,7 +1,7 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import {Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link} from 'spectacle';
+import { Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
@@ -70,11 +70,11 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading size={2} caps textColor="tertiary">notify the user</Heading>
         </Slide>
-        <Slide><NotificationsSlide /></Slide>
+        <Slide><NotificationsSlide clientManager={clientManager} /></Slide>
         <Slide>
           <Heading caps fit size={3} textColor="tertiary">interact with the OS/device</Heading>
         </Slide>
-        <Slide><UserMediaSlide /></Slide>
+        <Slide><UserMediaSlide clientManager={clientManager} /></Slide>
         <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
         <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
         <Slide><MiscSlide clientManager={clientManager} /></Slide>
@@ -83,7 +83,7 @@ export default class Presentation extends React.Component {
         </Slide>
         <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
         <Slide><WebAudioSlide /></Slide>
-        <Slide><CrowsSlide clientManager={clientManager}/></Slide>
+        <Slide><CrowsSlide clientManager={clientManager} /></Slide>
         <Slide>
           <Heading size={3}>Links</Heading>
           <List>

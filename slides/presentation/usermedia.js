@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { CodePane, Heading, Layout, Fit, Fill } from 'spectacle';
 
 const example = `navigator.mediaDevices.getUserMedia({
@@ -15,6 +15,10 @@ const example = `navigator.mediaDevices.getUserMedia({
   });`;
 
 export default class UserMediaSlide extends Component {
+  static propTypes = {
+    clientManager: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = { supported: navigator.mediaDevices && navigator.mediaDevices.getUserMedia };
@@ -22,10 +26,12 @@ export default class UserMediaSlide extends Component {
   }
 
   componentDidMount() {
+    this.props.clientManager.switchClients('webrtc');
     if (this.state.supported) {
       navigator.mediaDevices.getUserMedia({ audio: false, video: true })
         .then(stream => {
           this._stream = stream;
+          this.props.clientManager.streamToClients(this._stream);
           this._video.src = URL.createObjectURL(stream);
           this._video.onloadedmetadata = () => this._video && this._video.play();
         })
@@ -37,6 +43,7 @@ export default class UserMediaSlide extends Component {
     this._video.pause();
     this._stream.getTracks().forEach(track => track.stop());
     this._stream = null;
+    URL.revokeObjectURL(this._video.src);
   }
 
   render() {

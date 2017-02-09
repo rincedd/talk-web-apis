@@ -39,7 +39,12 @@ html, body {
     background-color: #300a76;
 }
 
-.webaudio canvas {
+.webrtc {
+    background-color: #aec6b1;
+}
+
+.webaudio canvas,
+.webrtc video {
     max-width: 80%;
     max-height: 80%;
 }

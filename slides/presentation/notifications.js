@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { CodePane, Heading, Layout, Fill } from 'spectacle';
 
 const example = `Notification.requestPermission().then(result => {
@@ -11,12 +11,17 @@ const example = `Notification.requestPermission().then(result => {
 });`;
 
 export default class NotificationsSlide extends Component {
+  static propTypes = {
+    clientManager: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = { notificationsAllowed: false };
   }
 
   componentDidMount() {
+    this.props.clientManager.switchClients('notifications');
     if ('Notification' in window) {
       window.Notification.requestPermission().then(result => {
         this.setState({ notificationsAllowed: result === 'granted' });
