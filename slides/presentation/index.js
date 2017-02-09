@@ -1,7 +1,7 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import { Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
+import {Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link} from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
@@ -14,6 +14,7 @@ import NotificationsSlide from './notifications';
 import MiscSlide from './misc';
 import UserMediaSlide from './usermedia';
 import WebAudioSlide from './web-audio';
+import CrowsSlide from './web-audio-crows';
 
 // Require CSS
 require('normalize.css');
@@ -81,7 +82,8 @@ export default class Presentation extends React.Component {
           <Heading size={2} caps textColor="tertiary">go crazy</Heading>
         </Slide>
         <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
-        <Slide><WebAudioSlide clientManager={clientManager} /></Slide>
+        <Slide><WebAudioSlide /></Slide>
+        <Slide><CrowsSlide clientManager={clientManager}/></Slide>
         <Slide>
           <Heading size={3}>Links</Heading>
           <List>
