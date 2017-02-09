@@ -88,8 +88,11 @@ export default class Presentation extends React.Component {
           <Heading size={3}>Links</Heading>
           <List>
             <ListItem><Link href="http://devdocs.io/dom/">devdocs.io/dom</Link></ListItem>
+            <ListItem><Link href="https://github.com/mdn">MDN on github</Link></ListItem>
             <ListItem><Link href="http://caniuse.com/">caniuse.com</Link></ListItem>
+            <ListItem><Link href="https://www.html5rocks.com">html5rocks.com</Link></ListItem>
             <ListItem>cat icon by <Link href="http://iconka.com/">iconka</Link></ListItem>
+            <ListItem>crow recording from <Link href="http://www.xeno-canto.org/348301">xeno-canto.org</Link></ListItem>
           </List>
         </Slide>
       </Deck>
