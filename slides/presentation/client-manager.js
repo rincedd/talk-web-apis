@@ -1,8 +1,8 @@
 import Faye from 'faye/src/faye_browser';
-import { EventEmitter } from 'events';
+import {EventEmitter} from 'events';
 import Peer from 'simple-peer';
 
-const FAYE_URL = 'http://localhost:8000/faye';
+const FAYE_URL = 'https://talk-web-apis.de/faye';
 
 export default class ClientManager extends EventEmitter {
   constructor() {

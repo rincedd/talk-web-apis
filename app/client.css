@@ -43,6 +43,11 @@ html, body {
     background-color: #aec6b1;
 }
 
+.thankyou {
+    background-color: #7c4c00;
+    color: #eeeeee;
+}
+
 .webaudio canvas,
 .webrtc video {
     max-width: 80%;

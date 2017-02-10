@@ -1,7 +1,7 @@
 // Import React
 import React from 'react';
 // Import Spectacle Core tags
-import { Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link } from 'spectacle';
+import {Code, CodePane, List, ListItem, Deck, Heading, Slide, Text, Image, Link, Layout, Fill} from 'spectacle';
 // Import image preloader util
 import preloader from 'spectacle/lib/utils/preloader';
 // Import theme
@@ -15,6 +15,7 @@ import MiscSlide from './misc';
 import UserMediaSlide from './usermedia';
 import WebAudioSlide from './web-audio';
 import CrowsSlide from './web-audio-crows';
+import WhatsNextSlide from './whats-next';
 
 // Require CSS
 require('normalize.css');
@@ -23,6 +24,7 @@ require('./styles.css');
 
 const images = {
   logo: require('../assets/tng.svg'),
+  browsers: require('../assets/browsers.png')
 };
 
 preloader(images);
@@ -49,7 +51,13 @@ export default class Presentation extends React.Component {
           <Image src={images.logo} width="28%" />
         </Slide>
         <Slide>
-          <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
+          <Heading fit size={3}>HTML5, Web APIs, and standards</Heading>
+          <Image margin="1%" width="40%" src={images.browsers}/>
+          <Layout>
+            <Fill><Text><Link href="https://vimeo.com/110256895">w3c.org</Link></Text></Fill>
+            <Fill><Text><Link href="https://whatwg.org/">whatwg.org</Link></Text></Fill>
+          </Layout>
+          <Text margin="1%">overview: <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link></Text>
         </Slide>
         <Slide>
           <Heading size={2} caps fit textColor="tertiary">handle data on the client-side</Heading>
@@ -74,7 +82,10 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading caps fit size={3} textColor="tertiary">interact with the OS/device</Heading>
         </Slide>
-        <Slide><Heading fit size={4}>bit.ly link here</Heading></Slide>{/*TODO add link */}
+        <Slide>
+          <Heading fit size={4}>bit.ly/2l0DPvU</Heading>
+          <Text><Link href="https://talk-web-apis.de">https://talk-web-apis.de</Link></Text>
+        </Slide>
         <Slide><BatteryStatusSlide clientManager={clientManager} /></Slide>
         <Slide><UserMediaSlide clientManager={clientManager} /></Slide>
         <Slide><GeolocationSlide clientManager={clientManager} /></Slide>
@@ -85,6 +96,7 @@ export default class Presentation extends React.Component {
         <Slide><SpeechSynthesisSlide clientManager={clientManager} /></Slide>
         <Slide><WebAudioSlide /></Slide>
         <Slide><CrowsSlide clientManager={clientManager} /></Slide>
+        <Slide><WhatsNextSlide clientManager={clientManager}/></Slide>
         <Slide>
           <Heading size={3}>Links</Heading>
           <List>
@@ -95,6 +107,9 @@ export default class Presentation extends React.Component {
             <ListItem>cat icon by <Link href="http://iconka.com/">iconka</Link></ListItem>
             <ListItem>crow recording from <Link href="http://www.xeno-canto.org/348301">xeno-canto.org</Link></ListItem>
           </List>
+        </Slide>
+        <Slide>
+          <Heading size={1}>?</Heading>
         </Slide>
       </Deck>
     );

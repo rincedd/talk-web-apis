@@ -19,7 +19,8 @@ module.exports = {
   devtool: 'inline-sourcemap',
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      hash: true
     }),
     new CopyWebpackPlugin([{ from: '*.mp3' }])
   ]

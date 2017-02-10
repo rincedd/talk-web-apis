@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { CodePane, Heading, Layout, Fit, Fill } from 'spectacle';
+import React, {Component, PropTypes} from 'react';
+import {CodePane, Heading, Layout, Text, Fit, Fill} from 'spectacle';
 
 const example = `navigator.mediaDevices.getUserMedia({
     audio: true,  // more complex capability requests possible 
@@ -49,6 +49,7 @@ export default class UserMediaSlide extends Component {
   render() {
     return <div>
       <Heading size={3}>user media streams</Heading>
+      <Text margin="0 0 10px 0">(and WebRTC)</Text>
       <Layout>
         <Fit>{this.state.supported ? <video width="400" ref={v => this._video = v} /> :
           <div>not supported/permitted</div>}</Fit>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Peer from 'simple-peer';
 
 export default class VideoStream extends Component {
@@ -38,7 +38,7 @@ export default class VideoStream extends Component {
     return (
       <div className="slide webrtc">
         <div>WebRTC {Peer.WEBRTC_SUPPORT ? 'supported' : 'not supported'}</div>
-        { this.state.error ? <div className="error">{JSON.stringify(this.state.error)}</div> : null }
+        { this.state.error ? <div className="error">WebRTC error</div> : null }
         <video width="600" ref={v => this._video = v} />
       </div>
     );

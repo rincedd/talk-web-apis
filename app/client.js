@@ -1,8 +1,8 @@
 import Faye from 'faye/src/faye_browser';
-import { v4 } from 'uuid';
+import {v4} from 'uuid';
 import UAParser from 'ua-parser-js';
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React, {Component} from 'react';
+import {render} from 'react-dom';
 import BatteryStatus from './battery-status';
 import Geolocation from './geolocation';
 import SpeechSynthesis from './speech-synthesis';
@@ -52,6 +52,8 @@ class App extends Component {
         return <SpeechSynthesis text={this.state.speechSynthesisText} />;
       case 'webaudio':
         return <WebAudio />;
+    case 'thankyou':
+      return <div className="slide thankyou">Thank you!</div>;
       default:
         return <div className="slide">Hello!</div>;
     }
