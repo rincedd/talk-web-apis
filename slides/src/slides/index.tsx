@@ -50,7 +50,7 @@ const theme = {
 export class Presentation extends React.Component {
     render() {
         return (
-            <Deck transitionEffect="none" template={deckTemplate} theme={theme}>
+            <Deck transitionEffect="fade" template={deckTemplate} theme={theme}>
                 <Slide>
                     <Heading className="title">Web APIs in modern browsers</Heading>
                     <Text textAlign="center">Dr. Gerd Zschaler</Text>

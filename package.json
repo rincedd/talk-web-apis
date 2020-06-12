@@ -1,0 +1,17 @@
+{
+  "name": "talk-web-apis",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:slides": "cd slides && npm run build",
+    "build:client": "cd client && npm run build",
+    "prebuild": "rm -r ./dist && mkdir -p ./dist/client",
+    "build": "npm run build:slides && npm run build:client && mv ./slides/build/* ./dist/ && mv ./client/dist/* ./dist/client/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rincedd/talk-web-apis.git"
+  },
+  "author": "Gerd Zschaler<gzschaler@googlemail.com>",
+  "license": "MIT"
+}
