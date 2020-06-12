@@ -5,7 +5,7 @@
   "scripts": {
     "build:slides": "cd slides && npm run build",
     "build:client": "cd client && npm run build",
-    "prebuild": "rm -r ./dist && mkdir -p ./dist/client",
+    "prebuild": "rm -rf ./dist && mkdir -p ./dist/client",
     "build": "npm run build:slides && npm run build:client && mv ./slides/build/* ./dist/ && mv ./client/dist/* ./dist/client/"
   },
   "repository": {
