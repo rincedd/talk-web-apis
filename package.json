@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build:slides": "cd slides && npm run build",
-    "build:client": "cd client && npm run build",
+    "build:slides": "cd slides && npm ci && npm run build",
+    "build:client": "cd client && npm ci && npm run build",
     "prebuild": "rm -rf ./dist && mkdir -p ./dist/client",
     "build": "npm run build:slides && npm run build:client && mv ./slides/build/* ./dist/ && mv ./client/dist/* ./dist/client/"
   },
