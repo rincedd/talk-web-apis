@@ -11,7 +11,7 @@ import VideoStream from './video-stream';
 import './client.css';
 
 const fayeId = v4();
-const fayeClient = new Faye.Client('/faye', { timeout: 60 });
+const fayeClient = new Faye.Client('https://gzschaler.de/ws', {timeout: 45});
 fayeClient.publish('/connect', { id: fayeId, browser: new UAParser().getBrowser() });
 
 window.addEventListener('unload', () => fayeClient.publish('/disconnect', { id: fayeId }));

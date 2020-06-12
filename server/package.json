@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "pm2 start --name faye-server index.js",
+    "stop": "pm2 stop faye-server"
   },
   "author": "Gerd Zschaler <gzschaler@googlemail.com>",
   "license": "MIT",
   "dependencies": {
-    "faye": "^1.2.4",
-    "node-static": "^0.7.9"
+    "faye": "^1.3.0",
+    "pm2": "^4.4.0"
   }
 }

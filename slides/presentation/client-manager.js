@@ -2,12 +2,12 @@ import Faye from 'faye/src/faye_browser';
 import {EventEmitter} from 'events';
 import Peer from 'simple-peer';
 
-const FAYE_URL = 'https://talk-web-apis.de/faye';
+const FAYE_URL = 'https://gzschaler.de/ws';
 
 export default class ClientManager extends EventEmitter {
   constructor() {
     super();
-    this.faye = new Faye.Client(FAYE_URL, { timeout: 60 });
+    this.faye = new Faye.Client(FAYE_URL, {timeout: 45});
     this.clientsById = new Map();
     this.currentPage = '';
     this.faye.subscribe('/connect', client => this._updateClient(client));
