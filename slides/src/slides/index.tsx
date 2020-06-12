@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, CodePane, CodeSpan, Deck, FlexBox, Heading, Image, Link, ListItem, Progress, Slide, Text, UnorderedList} from 'spectacle';
+
 import {ClientManager} from './client-manager';
 import BatteryStatusSlide from './battery-status';
 import GeolocationSlide from './geolocation';
@@ -10,12 +11,14 @@ import UserMediaSlide from './usermedia';
 import WebAudioSlide from './web-audio';
 import CrowsSlide from './web-audio-crows';
 import WhatsNextSlide from './whats-next';
+import {JoinMeSlide} from "./join-me";
 
 import './styles.css';
 import {SectionTitle} from "./section-title";
 
 import logo from '../assets/tng-logo.svg';
 import browsers from '../assets/browsers.png';
+
 
 const clientManager = new ClientManager();
 
@@ -111,10 +114,7 @@ document.querySelector('canvas').toBlob(blob => {
                 <Slide>
                     <SectionTitle>interact with the OS/device</SectionTitle>
                 </Slide>
-                <Slide>
-                    <Heading>bit.ly/2l0DPvU</Heading>
-                    <Text><Link href="https://talk-web-apis.de">https://talk-web-apis.de</Link></Text>
-                </Slide>
+                <Slide><JoinMeSlide clientManager={clientManager}/></Slide>
                 <Slide><BatteryStatusSlide clientManager={clientManager}/></Slide>
                 <Slide><UserMediaSlide clientManager={clientManager}/></Slide>
                 <Slide><GeolocationSlide clientManager={clientManager}/></Slide>

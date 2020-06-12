@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Box, CodePane, Text, Heading} from 'spectacle';
+import {Box, CodePane, Heading} from 'spectacle';
 import {ClientManager} from "./client-manager";
 
 const example = `Notification.requestPermission().then(result => {
