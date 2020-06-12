@@ -16,6 +16,7 @@
     "react-dom": "^15.4.2",
     "simple-peer": "^6.2.2",
     "ua-parser-js": "^0.7.12",
+    "url-polyfill": "^1.1.9",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

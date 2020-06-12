@@ -9,7 +9,7 @@ export default class VideoStream extends Component {
 
   componentDidMount() {
     this.rtcPeer = new Peer();
-    this.rtcPeer.on('signal', signal => this.props.pubSubClient.publish('/signal', {
+    this.rtcPeer.on('signal', signal => this.props.pubSubClient.publish('signal', {
       signal,
       id: this.props.pubSubId
     }));
@@ -20,7 +20,7 @@ export default class VideoStream extends Component {
         this._video.onloadedmetadata = () => this._video && this._video.play();
       }
     });
-    this.signalSubscription = this.props.pubSubClient.subscribe('/signal', ({ signal, id }) => {
+    this.signalSubscription = this.props.pubSubClient.subscribe('signal', ({ signal, id }) => {
       if (!id) {
         this.rtcPeer && !this.rtcPeer.destroyed && this.rtcPeer.signal(signal)
       }

@@ -21,11 +21,11 @@ export class JoinMeSlide extends Component<{ clientManager: ClientManager }, { n
     }
 
     render() {
+        const joinLink = `https://talk-web-apis.netlify.app/client?session=${this.props.clientManager.sessionId}`;
         return <>
             <Heading>Let's try something...</Heading>
-            <Text textAlign="center"><QRCode size={256} value="https://talk-web-apis.netlify.app/client"/> {this.state.numClients} joined</Text>
-            <Text textAlign="center"><Link
-                href="https://talk-web-apis.netlify.app/client">https://talk-web-apis.netlify.app/client</Link></Text>
+            <Text textAlign="center"><QRCode size={256} value={joinLink}/> {this.state.numClients} joined</Text>
+            <Text textAlign="center"><Link href={joinLink}>{joinLink}</Link></Text>
         </>
     }
 }
