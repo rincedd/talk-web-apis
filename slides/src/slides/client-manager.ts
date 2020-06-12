@@ -64,7 +64,7 @@ export class ClientManager extends EventEmitter {
     }
 
     private subscribe(channel: string, cb: (message: any) => void) {
-        return this.faye.subscribe(`/${this._sessionId}/channel`, cb);
+        return this.faye.subscribe(`/${this._sessionId}/${channel}`, cb);
     }
 
     switchClients(page: string) {
