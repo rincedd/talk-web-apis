@@ -37,7 +37,9 @@ const fayeSessionId = getSessionId();
 const fayeClient = new Faye.Client('https://gzschaler.de/ws', {timeout: 45});
 
 function publish(channel, message) {
-  return fayeClient.publish(`/${fayeSessionId}/${channel}`, message);
+  const fullChannel = `/${fayeSessionId}/${channel}`;
+  console.log('Publishing', channel, message);
+  return fayeClient.publish(fullChannel, message);
 }
 
 function subscribe(channel) {
@@ -47,6 +49,8 @@ function subscribe(channel) {
 console.log(`Initialising Faye client ${fayeId} for session ${fayeSessionId}`);
 
 publish('connect', { id: fayeId, browser: new UAParser().getBrowser() });
+
+console.log('Initialised');
 
 window.addEventListener('unload', () => publish('disconnect', { id: fayeId }));
 
