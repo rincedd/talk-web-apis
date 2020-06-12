@@ -1,4 +1,3 @@
-import Faye from 'faye/src/faye_browser';
 import {v4} from 'uuid';
 import UAParser from 'ua-parser-js';
 import React, {Component} from 'react';
@@ -44,6 +43,8 @@ function publish(channel, message) {
 function subscribe(channel) {
   return fayeClient.subscribe(`/${fayeSessionId}/${channel}`);
 }
+
+console.log(`Initialising Faye client ${fayeId} for session ${fayeSessionId}`);
 
 publish('connect', { id: fayeId, browser: new UAParser().getBrowser() });
 
