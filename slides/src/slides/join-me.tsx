@@ -1,31 +1,21 @@
-import React, {Component} from "react";
-import {ClientManager} from "./client-manager";
-import {Heading, Link, Text} from "spectacle";
+import React from "react";
+import { ClientManager } from "./client-manager";
+import { FlexBox, Heading, Link, Text } from "spectacle";
 import QRCode from "qrcode.react";
+import { BubbleChart } from "./bubble-chart";
 
-export class JoinMeSlide extends Component<{ clientManager: ClientManager }, { numClients: number }> {
-    constructor(props: Readonly<{ clientManager: ClientManager; }>) {
-        super(props);
-        this.state = {numClients: 0};
-    }
-
-    onClientChange = () => this.setState({numClients: this.props.clientManager.getClients().length});
-
-    componentDidMount() {
-        this.props.clientManager.on('update', this.onClientChange);
-        this.setState({numClients: this.props.clientManager.getClients().length});
-    }
-
-    componentWillUnmount() {
-        this.props.clientManager.off('update', this.onClientChange)
-    }
-
-    render() {
-        const joinLink = `https://talk-web-apis.netlify.app/client?session=${this.props.clientManager.sessionId}`;
-        return <>
-            <Heading>Let's try something...</Heading>
-            <Text textAlign="center"><QRCode size={256} value={joinLink}/> {this.state.numClients} joined</Text>
-            <Text textAlign="center"><Link href={joinLink}>{joinLink}</Link></Text>
-        </>
-    }
+export function JoinMeSlide(props: { clientManager: ClientManager }) {
+  const joinLink = `https://talk-web-apis.netlify.app/client?session=${props.clientManager.sessionId}`;
+  return (
+    <>
+      <Heading>Let's try something...</Heading>
+      <FlexBox padding={0} justifyContent="space-around" alignItems="stretch">
+        <QRCode size={256} value={joinLink} />
+        <BubbleChart clientManager={props.clientManager} />
+      </FlexBox>
+      <Text textAlign="center">
+        <Link href={joinLink}>{joinLink}</Link>
+      </Text>
+    </>
+  );
 }

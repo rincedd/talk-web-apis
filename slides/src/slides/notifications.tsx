@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Box, CodePane, Heading} from 'spectacle';
+// @ts-ignore
+import prismTheme from "prism-react-renderer/themes/nightOwlLight";
+
 import {ClientManager} from "./client-manager";
 
 const example = `Notification.requestPermission().then(result => {
@@ -37,7 +40,7 @@ export default class NotificationsSlide extends Component<{ clientManager: Clien
         return <>
             <Heading size={3} fit margin="2rem">system-level popup notifications</Heading>
             <Box m="25px 0">
-                <CodePane language="javascript" autoFillHeight>{example}</CodePane>
+                <CodePane language="javascript" autoFillHeight theme={prismTheme}>{example}</CodePane>
             </Box>
             <button className="btn" disabled={!this.state.notificationsAllowed} onClick={() => this.notifyMe()}>Notify me</button>
         </>;

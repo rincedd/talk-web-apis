@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { CodePane, Box, FlexBox, Heading } from 'spectacle';
+// @ts-ignore
+import prismTheme from "prism-react-renderer/themes/nightOwlLight";
+
 import {ClientManager} from "./client-manager";
 
 declare var google: any;
@@ -70,7 +73,7 @@ export default class GeolocationSlide extends Component<{clientManager: ClientMa
         <Box>
           <div style={{ height: '400px' }} ref={el => this.el = el} />
         </Box>
-        <CodePane autoFillHeight language="javascript">{`
+        <CodePane autoFillHeight language="javascript" theme={prismTheme}>{`
 // only allowed on HTTPS pages
 navigator.geolocation.getCurrentPosition(
   p => {

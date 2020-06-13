@@ -13,8 +13,12 @@ export default class SpeechSynthesis extends Component {
 
   _loadVoice() {
     const voices = window.speechSynthesis.getVoices();
-    const voice = voices.filter(v => v.lang.startsWith('en'))[0] || voices[0];
-    this.setState({ voice });
+    if (voices.length > 0) {
+      const voice = voices.filter(v => v.lang.startsWith('en'))[0] || voices[0];
+      this.setState({ voice });
+    } else {
+      this.setState({ noVoice: true });
+    }
   };
 
   componentWillUnmount() {
@@ -42,7 +46,7 @@ export default class SpeechSynthesis extends Component {
 
   render() {
     if ('speechSynthesis' in window) {
-      return <div className="slide speech">Your browser can talk to you! (Using {this.state.voice.voiceURI}.)</div>;
+      return <div className="slide speech">Your browser can talk to you! ({this.state.noVoice ? 'There are no available voices.' : `Using ${this.state.voice.voiceURI}`}.)</div>;
     }
     return <div>Speech synthesis API is not supported in your browser.</div>
   }

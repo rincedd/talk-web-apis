@@ -46,6 +46,7 @@ export class ClientManager extends EventEmitter {
         //         this.rtcInitiator && this.rtcInitiator.signal(signal);
         //     }
         // });
+        this.publish('connect/presenter', {});
         setInterval(() => this.publish('heartbeat', {page: this.currentPage}), 2000);
     }
 

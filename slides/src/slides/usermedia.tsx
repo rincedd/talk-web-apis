@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Box, CodePane, FlexBox, Heading, Text} from 'spectacle';
+// @ts-ignore
+import prismTheme from "prism-react-renderer/themes/nightOwlLight";
+
 import {ClientManager} from "./client-manager";
 
 const example = `navigator.mediaDevices.getUserMedia({
@@ -53,7 +56,7 @@ export default class UserMediaSlide extends Component<{clientManager: ClientMana
       <FlexBox>
         <Box>{this.state.supported ? <video width="400" ref={v => this.video = v} /> :
           <div>not supported/permitted</div>}</Box>
-        <CodePane autoFillHeight language="javascript">{example}</CodePane>
+        <CodePane autoFillHeight language="javascript" theme={prismTheme}>{example}</CodePane>
       </FlexBox>
     </div>;
   }
