@@ -63,8 +63,9 @@ const theme = {
     tertiary: "#ffffff",
     quartenary: "#CECECE",
   },
+    space: [12, 20, 28],
   size: {
-      maxCodePaneHeight: "100%"
+      maxCodePaneHeight: "500px"
   },
 };
 

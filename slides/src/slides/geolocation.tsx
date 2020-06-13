@@ -1,80 +1,25 @@
-import React, { Component } from 'react';
-import { CodePane, Box, FlexBox, Heading } from 'spectacle';
+import React, { Component } from "react";
+import { CodePane, FlexBox, Heading } from "spectacle";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
-import {ClientManager} from "./client-manager";
+import { ClientManager } from "./client-manager";
+import { LeafletMap } from "./leaflet-map";
 
-declare var google: any;
-
-const MAPS_API_KEY = process.env.npm_config_google_api_key;
-const CALLBACK_NAME = '__gmInitMap';
-
-export default class GeolocationSlide extends Component<{clientManager: ClientManager}, {ready: boolean, markers: Map<any, any>}> {
-  private googleMapsScript?: HTMLScriptElement;
-  private clientManagerUpdateHandler = () => this._updateMarkers();
-  private el: HTMLDivElement | null = null;
-  private map: any;
-  constructor(props: Readonly<{ clientManager: ClientManager; }>) {
-    super(props);
-    this.state = { ready: false, markers: new Map() };
-  }
-
+export default class GeolocationSlide extends Component<{
+  clientManager: ClientManager;
+}> {
   componentDidMount() {
-    // @ts-ignore
-    window[CALLBACK_NAME] = () => this._initMap();
-    this.googleMapsScript = document.createElement('script');
-    this.googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=${CALLBACK_NAME}`;
-    document.querySelector('body')?.appendChild(this.googleMapsScript);
-
-    this.props.clientManager.switchClients('geolocation');
-    this.props.clientManager.on('update', this.clientManagerUpdateHandler);
-  }
-
-  componentWillUnmount() {
-    // @ts-ignore
-    delete window[CALLBACK_NAME];
-    this.googleMapsScript?.parentNode?.removeChild(this.googleMapsScript);
-    this.props.clientManager.removeListener('update', this.clientManagerUpdateHandler)
-  }
-
-  _initMap() {
-    this.map = new google.maps.Map(this.el, {
-      center: { lat: 48.1861268, lng: 11.6548477 },
-      zoom: 17
-    });
-    this.setState({ ready: true });
-  }
-
-  _updateMarkers() {
-    if (!this.state.ready) {
-      return;
-    }
-    this.props.clientManager.getClients().forEach((client, index) => {
-      if ('latitude' in client && 'longitude' in client) {
-        if (!this.state.markers.has(client)) {
-          this.state.markers.set(client, new google.maps.Marker({
-            map: this.map,
-            position: { lat: client.latitude, lng: client.longitude },
-            animation: google.maps.Animation.DROP,
-            label: String(index + 1)
-          }));
-        } else {
-          this.state.markers.get(client).setPosition({ lat: client.latitude, lng: client.longitude });
-        }
-      }
-    });
+    this.props.clientManager.switchClients("geolocation");
   }
 
   render() {
-    return <div>
-      <Heading size={3}>geolocation API</Heading>
-      <FlexBox>
-        <Box>
-          <div style={{ height: '400px' }} ref={el => this.el = el} />
-        </Box>
-        <CodePane autoFillHeight language="javascript" theme={prismTheme}>{`
-// only allowed on HTTPS pages
+    return (
+      <div>
+        <Heading size={3}>geolocation API</Heading>
+        <FlexBox alignItems="stretch" justifyContent="space-around">
+          <LeafletMap clientManager={this.props.clientManager} />
+          <CodePane autoFillHeight fontSize={16} language="javascript" theme={prismTheme}>{`// only allowed on HTTPS pages
 navigator.geolocation.getCurrentPosition(
   p => {
     console.log(p.coords.latitude, p.coords.longitude);
@@ -96,7 +41,8 @@ const watchId = navigator.geolocation.watchPosition(
 
 navigator.geolocation.clearWatch(watchId);
         `}</CodePane>
-      </FlexBox>
-    </div>;
+        </FlexBox>
+      </div>
+    );
   }
 }
