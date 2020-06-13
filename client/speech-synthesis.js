@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class SpeechSynthesis extends Component {
   constructor(props) {
     super(props);
-    this.state = { voice: {} };
+    this.state = { voice: null };
     this._boundLoadVoice = this._loadVoice.bind(this);
     if ('speechSynthesis' in window) {
       window.speechSynthesis.addEventListener('voiceschanged', this._boundLoadVoice);
@@ -17,7 +17,7 @@ export default class SpeechSynthesis extends Component {
       const voice = voices.filter(v => v.lang.startsWith('en'))[0] || voices[0];
       this.setState({ voice });
     } else {
-      this.setState({ noVoice: true });
+      this.setState({ voice: null });
     }
   };
 
@@ -28,7 +28,7 @@ export default class SpeechSynthesis extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.text !== nextProps.text || this.state.voice.voiceURI !== nextState.voice.voiceURI;
+    return this.props.text !== nextProps.text || (this.state.voice && this.state.voice.voiceURI !== nextState.voice.voiceURI);
   }
 
   componentDidUpdate() {
@@ -46,7 +46,7 @@ export default class SpeechSynthesis extends Component {
 
   render() {
     if ('speechSynthesis' in window) {
-      return <div className="slide speech">Your browser can talk to you! ({this.state.noVoice ? 'There are no available voices.' : `Using ${this.state.voice.voiceURI}`}.)</div>;
+      return <div className="slide speech">Your browser can talk to you! ({this.state.voice ? `Using ${this.state.voice.voiceURI}` : 'There are no available voices.'}.)</div>;
     }
     return <div>Speech synthesis API is not supported in your browser.</div>
   }
