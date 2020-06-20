@@ -6,7 +6,7 @@
     "build:slides": "cd slides && npm ci && npm run build",
     "build:client": "cd client && npm ci && npm run build",
     "prebuild": "rm -rf ./dist && mkdir -p ./dist/client",
-    "build": "npm run build:slides && npm run build:client && mv ./slides/build/* ./dist/ && mv ./client/dist/* ./dist/client/"
+    "build": "npm run build:slides && npm run build:client && mv ./slides/build/* ./dist/ && mv ./client/build/* ./dist/client/"
   },
   "repository": {
     "type": "git",
