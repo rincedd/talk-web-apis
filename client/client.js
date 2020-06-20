@@ -1,14 +1,14 @@
-import { v4 } from "uuid";
-import UAParser from "ua-parser-js";
 import React, { Component } from "react";
 import { render } from "react-dom";
+import UAParser from "ua-parser-js";
 import "url-polyfill";
+import { v4 } from "uuid";
 import BatteryStatus from "./battery-status";
+import "./client.css";
 import Geolocation from "./geolocation";
+import MediaDevices from "./media-devices";
 import SpeechSynthesis from "./speech-synthesis";
 import WebAudio from "./web-audio";
-import VideoStream from "./video-stream";
-import "./client.css";
 
 function getClientId() {
   const storedClientId = sessionStorage.getItem("clientId");
@@ -51,31 +51,9 @@ publish("connect", { id: fayeId, browser });
 
 window.addEventListener("unload", () => publish("disconnect", { id: fayeId }));
 
-const SOS_PATTERN = [
-  120,
-  60,
-  120,
-  60,
-  120,
-  240,
-  240,
-  60,
-  240,
-  60,
-  240,
-  240,
-  120,
-  60,
-  120,
-  60,
-  120,
-];
-const vibrate = (
-  navigator.vibrate ||
-  navigator.webkitVibrate ||
-  navigator.mozVibrate ||
-  (() => {})
-).bind(navigator);
+const SOS_PATTERN = [120, 60, 120, 60, 120, 240, 240, 60, 240, 60, 240, 240, 120, 60, 120, 60, 120];
+const vibrate = (navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || (() => {
+})).bind(navigator);
 
 class App extends Component {
   constructor(props) {
@@ -85,14 +63,10 @@ class App extends Component {
 
   componentDidMount() {
     this.subscriptions = [
-      subscribe("connect/presenter", () =>
-        publish("connect", { id: fayeId, browser })
-      ),
+      subscribe("connect/presenter", () => publish("connect", { id: fayeId, browser })),
       subscribe("heartbeat", ({ page }) => this.setState({ page })),
       subscribe("switch", ({ page }) => this.setState({ page })),
-      subscribe("speech", ({ text }) =>
-        this.setState({ speechSynthesisText: text })
-      ),
+      subscribe("speech", ({ text }) => this.setState({ speechSynthesisText: text })),
       subscribe("vibrate", ({ pattern = SOS_PATTERN }) => vibrate(pattern)),
     ];
   }
@@ -104,26 +78,11 @@ class App extends Component {
   render() {
     switch (this.state.page) {
       case "battery":
-        return (
-          <BatteryStatus
-            onChange={(e) => publish("update/battery", { ...e, id: fayeId })}
-          />
-        );
+        return <BatteryStatus onChange={(e) => publish("update/battery", { ...e, id: fayeId })} />;
       case "geolocation":
-        return (
-          <Geolocation
-            onChange={(e) =>
-              publish("update/geolocation", { ...e, id: fayeId })
-            }
-          />
-        );
-      case "webrtc":
-        return (
-          <VideoStream
-            pubSubClient={{ publish, subscribe }}
-            pubSubId={fayeId}
-          />
-        );
+        return <Geolocation onChange={(e) => publish("update/geolocation", { ...e, id: fayeId })} />;
+      case "usermedia":
+        return <MediaDevices />;
       case "speech":
         return <SpeechSynthesis text={this.state.speechSynthesisText} />;
       case "webaudio":
