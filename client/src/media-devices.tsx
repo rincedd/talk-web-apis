@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 const DEVICE_TYPE_SYMBOLS = {
   audioinput: "🎤",
@@ -6,21 +6,27 @@ const DEVICE_TYPE_SYMBOLS = {
   videoinput: "🎥",
 };
 
-export default class MediaDevices extends Component {
+export default class MediaDevices extends Component<{}, { devices: MediaDeviceInfo[]; error?: string }> {
+  private video: HTMLVideoElement | null = null;
+
+  constructor(props: Readonly<{}>) {
+    super(props);
+    this.state = {devices: []};
+  }
 
   async componentDidMount() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-          facingMode: 'user',
+          width: {ideal: 1280},
+          height: {ideal: 720},
+          facingMode: "user",
         },
       });
       if (this.video) {
         this.video.src = URL.createObjectURL(stream);
-        this.video.onloadedmetadata = () => this.video && this.video.play();
+        this.video.onloadedmetadata = () => this.video?.play();
       }
       const devices = await navigator.mediaDevices.enumerateDevices();
       this.setState({ devices });
@@ -30,8 +36,10 @@ export default class MediaDevices extends Component {
   }
 
   componentWillUnmount() {
-    this._video.pause();
-    URL.revokeObjectURL(this._video.src);
+    if (this.video) {
+      this.video.pause();
+      URL.revokeObjectURL(this.video.src);
+    }
   }
 
   render() {
@@ -48,7 +56,7 @@ export default class MediaDevices extends Component {
           </ul>
         </div>
         {this.state.error && <div className="error">{this.state.error}</div>}
-        <video width="600" ref={(v) => (this._video = v)} />
+        <video width="600" ref={(v) => (this.video = v)} />
       </div>
     );
   }

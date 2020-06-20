@@ -1,14 +1,22 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import UAParser from "ua-parser-js";
+import React, {Component} from "react";
+import {UAParser} from "ua-parser-js";
 import "url-polyfill";
-import { v4 } from "uuid";
+import {v4} from "uuid";
 import BatteryStatus from "./battery-status";
-import "./client.css";
 import Geolocation from "./geolocation";
 import MediaDevices from "./media-devices";
 import SpeechSynthesis from "./speech-synthesis";
 import WebAudio from "./web-audio";
+
+declare namespace Faye {
+  export class Client {
+    constructor(url: string, options?: any);
+
+    publish(channel: string, message: any): Promise<void>;
+
+    subscribe(channel: string, cb: (message: any) => void): Promise<void> & { cancel: () => void };
+  }
+}
 
 function getClientId() {
   const storedClientId = sessionStorage.getItem("clientId");
@@ -24,7 +32,7 @@ function getClientId() {
 function getSessionId() {
   const url = new URL(window.location.href);
   if (url.searchParams.has("session")) {
-    const sessionId = url.searchParams.get("session");
+    const sessionId: string = url.searchParams.get("session") as string;
     sessionStorage.setItem("sessionId", sessionId);
     return sessionId;
   } else if (sessionStorage.getItem("sessionId")) {
@@ -37,37 +45,42 @@ const fayeSessionId = getSessionId();
 const browser = new UAParser().getBrowser();
 const fayeClient = new Faye.Client("https://gzschaler.de/ws", { timeout: 45 });
 
-function publish(channel, message) {
+function publish(channel: string, message: any) {
   return fayeClient.publish(`/${fayeSessionId}/${channel}`, message);
 }
 
-function subscribe(channel, cb) {
+function subscribe(channel: string, cb: (message: any) => void) {
   return fayeClient.subscribe(`/${fayeSessionId}/${channel}`, cb);
 }
 
 console.log(`Initialising Faye client ${fayeId} for session ${fayeSessionId}`);
 
-publish("connect", { id: fayeId, browser });
+publish("connect", {id: fayeId, browser});
 
-window.addEventListener("unload", () => publish("disconnect", { id: fayeId }));
+window.addEventListener("unload", () => publish("disconnect", {id: fayeId}));
 
 const SOS_PATTERN = [120, 60, 120, 60, 120, 240, 240, 60, 240, 60, 240, 240, 120, 60, 120, 60, 120];
+
+// TODO need user interaction before navigator.vibrate is allowed to be called
+// @ts-ignore
 const vibrate = (navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || (() => {
 })).bind(navigator);
 
-class App extends Component {
-  constructor(props) {
+export default class App extends Component<{}, { page: string; speechSynthesisText: string }> {
+  private subscriptions: (Promise<void> & { cancel: () => void })[] = [];
+
+  constructor(props: Readonly<{}>) {
     super(props);
-    this.state = { page: "", speechSynthesisText: "" };
+    this.state = {page: "", speechSynthesisText: ""};
   }
 
   componentDidMount() {
     this.subscriptions = [
-      subscribe("connect/presenter", () => publish("connect", { id: fayeId, browser })),
-      subscribe("heartbeat", ({ page }) => this.setState({ page })),
-      subscribe("switch", ({ page }) => this.setState({ page })),
-      subscribe("speech", ({ text }) => this.setState({ speechSynthesisText: text })),
-      subscribe("vibrate", ({ pattern = SOS_PATTERN }) => vibrate(pattern)),
+      subscribe("connect/presenter", () => publish("connect", {id: fayeId, browser})),
+      subscribe("heartbeat", ({page}: { page: string }) => this.setState({page})),
+      subscribe("switch", ({page}: { page: string }) => this.setState({page})),
+      subscribe("speech", ({text}: { text: string }) => this.setState({speechSynthesisText: text})),
+      subscribe("vibrate", ({pattern = SOS_PATTERN}: { pattern: number[] }) => vibrate(pattern)),
     ];
   }
 
@@ -94,5 +107,3 @@ class App extends Component {
     }
   }
 }
-
-render(<App />, document.querySelector("#app"));

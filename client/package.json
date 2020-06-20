@@ -1,49 +1,46 @@
 {
-  "name": "talk-web-apis-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "webpack",
-    "watch": "webpack --progress --watch"
-  },
-  "author": "Gerd Zschaler <gzschaler@googlemail.com>",
-  "license": "MIT",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "d3": "^4.5.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "ua-parser-js": "^0.7.12",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "typescript": "^3.7.5",
+    "ua-parser-js": "^0.7.21",
     "url-polyfill": "^1.1.9",
-    "uuid": "^3.0.1"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
-    "babel-core": "^6.22.1",
-    "babel-loader": "^6.2.10",
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
-    "babel-preset-latest": "^6.22.0",
-    "babel-preset-react": "^6.22.0",
-    "copy-webpack-plugin": "^4.0.1",
-    "core-js": "^2.4.1",
-    "css-loader": "^0.26.1",
-    "html-webpack-plugin": "^2.28.0",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.2.1"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.47",
+    "@types/react": "^16.9.38",
+    "@types/react-dom": "^16.9.8",
+    "@types/ua-parser-js": "^0.7.33",
+    "@types/uuid": "^8.0.0"
   },
-  "babel": {
-    "presets": [
-      [
-        "latest",
-        {
-          "es2015": {
-            "modules": false
-          }
-        }
-      ],
-      "react"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "plugins": [
-      "transform-object-rest-spread"
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }
