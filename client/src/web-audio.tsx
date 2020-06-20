@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-const AUDIO_FILE = "/XC348301.mp3";
+const AUDIO_FILE = "/client/XC348301.mp3";
 
 export default class WebAudio extends Component<{}, { supported: boolean; error?: string }> {
   private audioCtx?: AudioContext;
