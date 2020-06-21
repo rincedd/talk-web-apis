@@ -20,14 +20,14 @@ const example = `const stream = await navigator.mediaDevices.getUserMedia({
   }
 });
 const video = document.querySelector('video');
-video.src = URL.createObjectURL(stream);
+video.srcObject = stream;
 video.onloadedmetadata = () => video.play();
 `;
 
 export default class UserMediaSlide extends Component<{ clientManager: ClientManager },
   { devices: MediaDeviceInfo[]; error?: string; supported: boolean }> {
-  private stream: MediaStream | null = null;
   private video: HTMLVideoElement | null = null;
+  private objUrl?: string;
 
   constructor(props: Readonly<{ clientManager: ClientManager }>) {
     super(props);
@@ -35,6 +35,20 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
       devices: [],
       supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices && navigator.mediaDevices.getUserMedia),
     };
+  }
+
+  private setMediaSrc(el: HTMLMediaElement, srcStream: MediaStream) {
+    try {
+      this.objUrl = URL.createObjectURL(srcStream);
+    } catch (e) {
+      console.log("Browser does not accept MediaStream in createObjectURL()");
+    }
+
+    if (this.objUrl) {
+      el.src = this.objUrl;
+    } else {
+      el.srcObject = srcStream;
+    }
   }
 
   async componentDidMount() {
@@ -45,11 +59,11 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
           audio: false,
           video: {
             width: {ideal: 1280},
-            height: {ideal: 720}
+            height: {ideal: 720},
           },
         });
         if (this.video) {
-          this.video.src = URL.createObjectURL(stream);
+          this.setMediaSrc(this.video, stream);
           this.video.onloadedmetadata = () => this.video && this.video.play();
         }
         const devices = await navigator.mediaDevices.enumerateDevices();
@@ -62,8 +76,8 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
 
   componentWillUnmount() {
     this.video?.pause();
-    if (this.video) {
-      URL.revokeObjectURL(this.video.src);
+    if (this.objUrl) {
+      URL.revokeObjectURL(this.objUrl);
     }
   }
 

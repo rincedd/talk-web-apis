@@ -8,10 +8,25 @@ const DEVICE_TYPE_SYMBOLS = {
 
 export default class MediaDevices extends Component<{}, { devices: MediaDeviceInfo[]; error?: string }> {
   private video: HTMLVideoElement | null = null;
+  private objUrl?: string;
 
   constructor(props: Readonly<{}>) {
     super(props);
     this.state = {devices: []};
+  }
+
+  private setMediaSrc(el: HTMLMediaElement, srcStream: MediaStream) {
+    try {
+      this.objUrl = URL.createObjectURL(srcStream);
+    } catch (e) {
+      console.log("Browser does not accept MediaStream in createObjectURL()");
+    }
+
+    if (this.objUrl) {
+      el.src = this.objUrl;
+    } else {
+      el.srcObject = srcStream;
+    }
   }
 
   async componentDidMount() {
@@ -25,7 +40,7 @@ export default class MediaDevices extends Component<{}, { devices: MediaDeviceIn
         },
       });
       if (this.video) {
-        this.video.src = URL.createObjectURL(stream);
+        this.setMediaSrc(this.video, stream);
         this.video.onloadedmetadata = () => this.video?.play();
       }
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -36,9 +51,9 @@ export default class MediaDevices extends Component<{}, { devices: MediaDeviceIn
   }
 
   componentWillUnmount() {
-    if (this.video) {
-      this.video.pause();
-      URL.revokeObjectURL(this.video.src);
+    this.video?.pause();
+    if (this.objUrl) {
+      URL.revokeObjectURL(this.objUrl);
     }
   }
 
