@@ -27,7 +27,7 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
   constructor(props: Readonly<{ clientManager: ClientManager }>) {
     super(props);
     this.state = {
-      supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices && navigator.mediaDevices.getUserMedia),
+      supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
     };
   }
 
