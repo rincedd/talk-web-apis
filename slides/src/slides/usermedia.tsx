@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {Box, CodePane, FlexBox, Heading} from "spectacle";
+import React, { Component } from "react";
+import { Box, CodePane, FlexBox, Heading } from "spectacle";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
-import {ClientManager} from "./client-manager";
-import {MediaDeviceChoice} from "./media-device-choice";
+import { ClientManager } from "./client-manager";
+import { MediaDeviceChoice } from "./media-device-choice";
 
 const example = `const stream = await navigator.mediaDevices.getUserMedia({
   audio: true,
@@ -19,10 +19,13 @@ video.srcObject = stream;
 video.onloadedmetadata = () => video.play();
 `;
 
-export default class UserMediaSlide extends Component<{ clientManager: ClientManager },
-  { selectedVideoDeviceId?: string; error?: string; supported: boolean }> {
+export default class UserMediaSlide extends Component<
+  { clientManager: ClientManager },
+  { selectedVideoDeviceId?: string; error?: string; supported: boolean }
+> {
   private video: HTMLVideoElement | null = null;
   private objUrl?: string;
+  private stream: MediaStream | null = null;
 
   constructor(props: Readonly<{ clientManager: ClientManager }>) {
     super(props);
@@ -31,12 +34,12 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
     };
   }
 
-  private setMediaSrc(el: HTMLMediaElement, srcStream: MediaStream) {
+  private setMediaSrc(el: HTMLMediaElement) {
     try {
       if (this.objUrl) {
         URL.revokeObjectURL(this.objUrl);
       }
-      this.objUrl = URL.createObjectURL(srcStream);
+      this.objUrl = URL.createObjectURL(this.stream);
     } catch (e) {
       console.log("Browser does not accept MediaStream in createObjectURL()");
     }
@@ -44,33 +47,28 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
     if (this.objUrl) {
       el.src = this.objUrl;
     } else {
-      el.srcObject = srcStream;
+      el.srcObject = this.stream;
     }
   }
 
   async componentDidMount() {
     this.props.clientManager.switchClients("usermedia");
-    await this.startVideoStream();
-  }
-
-  private async startVideoStream() {
     if (this.state.supported) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        this.stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            width: {ideal: 1280},
-            height: {ideal: 720},
-            deviceId: this.state.selectedVideoDeviceId,
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
         });
         if (this.video) {
           this.video.pause();
-          this.setMediaSrc(this.video, stream);
+          this.setMediaSrc(this.video);
           this.video.onloadedmetadata = () => this.video && this.video.play();
         }
       } catch (e) {
-        this.setState({error: e.message});
+        this.setState({ error: e.message });
       }
     }
   }
@@ -80,10 +78,24 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
     if (this.objUrl) {
       URL.revokeObjectURL(this.objUrl);
     }
+    this.stream = null;
+  }
+
+  async switchDevice() {
+    try {
+      const videoTracks = this.stream?.getVideoTracks();
+      if (videoTracks) {
+        for (let track of videoTracks) {
+          await track.applyConstraints({ deviceId: this.state.selectedVideoDeviceId });
+        }
+      }
+    } catch (e) {
+      this.setState({ error: `Failed to switch device [${e.message}]` });
+    }
   }
 
   private onSelectVideoDevice = (deviceId: string) => {
-    this.setState({selectedVideoDeviceId: deviceId}, () => this.startVideoStream());
+    this.setState({ selectedVideoDeviceId: deviceId }, () => this.switchDevice());
   };
 
   render() {

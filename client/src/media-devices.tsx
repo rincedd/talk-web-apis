@@ -1,21 +1,22 @@
-import React, {Component} from "react";
-import {MediaDeviceChoice} from "./media-device-choice";
+import React, { Component } from "react";
+import { MediaDeviceChoice } from "./media-device-choice";
 
 export default class MediaDevices extends Component<{}, { supported: boolean; selectedVideoDeviceId?: string; error?: string }> {
   private video: HTMLVideoElement | null = null;
+  private stream: MediaStream | null = null;
   private objUrl?: string;
 
   constructor(props: Readonly<{}>) {
     super(props);
-    this.state = {supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)};
+    this.state = { supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) };
   }
 
-  private setMediaSrc(el: HTMLMediaElement, srcStream: MediaStream) {
+  private setMediaSrc(el: HTMLMediaElement) {
     try {
       if (this.objUrl) {
         URL.revokeObjectURL(this.objUrl);
       }
-      this.objUrl = URL.createObjectURL(srcStream);
+      this.objUrl = URL.createObjectURL(this.stream);
     } catch (e) {
       console.log("Browser does not accept MediaStream in createObjectURL()");
     }
@@ -23,32 +24,28 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
     if (this.objUrl) {
       el.src = this.objUrl;
     } else {
-      el.srcObject = srcStream;
+      el.srcObject = this.stream;
     }
   }
 
-  componentDidMount() {
-    this.startVideoStream();
-  }
-
-  private async startVideoStream() {
+  async componentDidMount() {
     if (this.state.supported) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        this.stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            width: {ideal: 1280},
-            height: {ideal: 720},
-            deviceId: this.state.selectedVideoDeviceId,
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: "user",
           },
         });
         if (this.video) {
           this.video.pause();
-          this.setMediaSrc(this.video, stream);
+          this.setMediaSrc(this.video);
           this.video.onloadedmetadata = () => this.video?.play();
         }
       } catch (e) {
-        this.setState({error: e.message});
+        this.setState({ error: e.message });
       }
     }
   }
@@ -58,6 +55,20 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
     if (this.objUrl) {
       URL.revokeObjectURL(this.objUrl);
     }
+    this.stream = null;
+  }
+
+  async switchDevice() {
+    try {
+      const videoTracks = this.stream?.getVideoTracks();
+      if (videoTracks) {
+        for (let track of videoTracks) {
+          await track.applyConstraints({ deviceId: this.state.selectedVideoDeviceId });
+        }
+      }
+    } catch (e) {
+      this.setState({ error: `Failed to switch device [${e.message}]` });
+    }
   }
 
   render() {
@@ -66,7 +77,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
         <div>MediaDevices API</div>
         <div>
           <MediaDeviceChoice
-            onChange={(deviceId) => this.setState({selectedVideoDeviceId: deviceId}, () => this.startVideoStream())}
+            onChange={(deviceId) => this.setState({ selectedVideoDeviceId: deviceId }, () => this.switchDevice())}
             videoIn
             audioOut={false}
             audioIn={false}
