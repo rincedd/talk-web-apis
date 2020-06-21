@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {UAParser} from "ua-parser-js";
-import "url-polyfill";
 import {v4} from "uuid";
 import BatteryStatus from "./battery-status";
 import Geolocation from "./geolocation";
@@ -30,9 +29,10 @@ function getClientId() {
 }
 
 function getSessionId() {
-  const url = new URL(window.location.href);
-  if (url.searchParams.has("session")) {
-    const sessionId: string = url.searchParams.get("session") as string;
+  const matches = /session=([^&#]+)/.exec(location.search);
+
+  if (matches) {
+    const sessionId: string = matches[1];
     sessionStorage.setItem("sessionId", sessionId);
     return sessionId;
   } else if (sessionStorage.getItem("sessionId")) {
