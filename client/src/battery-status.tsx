@@ -20,8 +20,10 @@ export default class BatteryStatus extends Component<{ onChange: (status: { batt
   }
 
   componentWillUnmount() {
-    this.batteryManager.removeEventListener("levelchange", this.update);
-    this.batteryManager.removeEventListener("chargingchange", this.update);
+    if (this.state.supported) {
+      this.batteryManager.removeEventListener("levelchange", this.update);
+      this.batteryManager.removeEventListener("chargingchange", this.update);
+    }
   }
 
   update = () => {

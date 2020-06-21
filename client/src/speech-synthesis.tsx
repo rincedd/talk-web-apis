@@ -56,13 +56,16 @@ export default class SpeechSynthesis extends Component<{ text: string },
           Your browser can talk to you!
           {this.state.voices.map((v) => (
             <div key={v.voiceURI}>
-              <input
-                type="radio"
-                name="voice"
-                value={v.voiceURI}
-                checked={v === this.state.selectedVoice}
-                onChange={(e) => this.setState({selectedVoice: this.state.voices.find((x) => x.voiceURI === v.voiceURI) || null})}
-              />
+              <label>
+                <input
+                  type="radio"
+                  name="voice"
+                  value={v.voiceURI}
+                  checked={v === this.state.selectedVoice}
+                  onChange={(e) => this.setState({selectedVoice: this.state.voices.find((x) => x.voiceURI === v.voiceURI) || null})}
+                />
+                {v.name} [{v.lang}]
+              </label>
             </div>
           ))}
         </div>
