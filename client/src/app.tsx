@@ -29,7 +29,7 @@ function getClientId() {
 }
 
 function getSessionId() {
-  const matches = /session=([^&#]+)/.exec(location.search);
+  const matches = /session=([^&#]+)/.exec(window.location.search);
 
   if (matches) {
     const sessionId: string = matches[1];
