@@ -66,7 +66,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
         <div>MediaDevices API</div>
         <div>
           <MediaDeviceChoice
-            onChange={(deviceId) => this.setState({selectedVideoDeviceId: deviceId})}
+            onChange={(deviceId) => this.setState({selectedVideoDeviceId: deviceId}, () => this.startVideoStream())}
             videoIn
             audioOut={false}
             audioIn={false}

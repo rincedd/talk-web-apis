@@ -83,7 +83,7 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
   }
 
   private onSelectVideoDevice = (deviceId: string) => {
-    this.setState({selectedVideoDeviceId: deviceId});
+    this.setState({selectedVideoDeviceId: deviceId}, () => this.startVideoStream());
   };
 
   render() {
