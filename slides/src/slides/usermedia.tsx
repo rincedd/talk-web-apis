@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Box, CodePane, FlexBox, Heading } from "spectacle";
+import React, {Component} from "react";
+import {Box, CodePane, FlexBox, Heading} from "spectacle";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
-import { ClientManager } from "./client-manager";
-import { MediaDeviceChoice } from "./media-device-choice";
+import {ClientManager} from "./client-manager";
+import {MediaDeviceChoice} from "./media-device-choice";
 
 const example = `const stream = await navigator.mediaDevices.getUserMedia({
   audio: true,
@@ -78,6 +78,7 @@ export default class UserMediaSlide extends Component<
     if (this.objUrl) {
       URL.revokeObjectURL(this.objUrl);
     }
+    this.stream?.getTracks().forEach(t => t.stop());
     this.stream = null;
   }
 

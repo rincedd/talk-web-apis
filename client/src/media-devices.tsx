@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { MediaDeviceChoice } from "./media-device-choice";
+import React, {Component} from "react";
+import {MediaDeviceChoice} from "./media-device-choice";
 
 export default class MediaDevices extends Component<{}, { supported: boolean; selectedVideoDeviceId?: string; error?: string }> {
   private video: HTMLVideoElement | null = null;
@@ -8,7 +8,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
 
   constructor(props: Readonly<{}>) {
     super(props);
-    this.state = { supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) };
+    this.state = {supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)};
   }
 
   private setMediaSrc(el: HTMLMediaElement) {
@@ -36,7 +36,6 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
           video: {
             width: { ideal: 1280 },
             height: { ideal: 720 },
-            facingMode: "user",
           },
         });
         if (this.video) {
@@ -55,6 +54,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
     if (this.objUrl) {
       URL.revokeObjectURL(this.objUrl);
     }
+    this.stream?.getTracks().forEach(t => t.stop());
     this.stream = null;
   }
 
@@ -63,7 +63,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
       const videoTracks = this.stream?.getVideoTracks();
       if (videoTracks) {
         for (let track of videoTracks) {
-          await track.applyConstraints({ deviceId: this.state.selectedVideoDeviceId });
+          await track.applyConstraints({width: {ideal: 1280}, height: {ideal: 720}, deviceId: this.state.selectedVideoDeviceId});
         }
       }
     } catch (e) {
