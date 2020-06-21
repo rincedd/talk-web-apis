@@ -4,12 +4,7 @@ import {Box, CodePane, FlexBox, Heading} from "spectacle";
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
 import {ClientManager} from "./client-manager";
-
-const DEVICE_TYPE_SYMBOLS = {
-  audioinput: "🎤",
-  audiooutput: "🔈",
-  videoinput: "🎥",
-};
+import {MediaDeviceChoice} from "./media-device-choice";
 
 const example = `const stream = await navigator.mediaDevices.getUserMedia({
   audio: true,
@@ -25,20 +20,22 @@ video.onloadedmetadata = () => video.play();
 `;
 
 export default class UserMediaSlide extends Component<{ clientManager: ClientManager },
-  { devices: MediaDeviceInfo[]; error?: string; supported: boolean }> {
+  { selectedVideoDeviceId?: string; error?: string; supported: boolean }> {
   private video: HTMLVideoElement | null = null;
   private objUrl?: string;
 
   constructor(props: Readonly<{ clientManager: ClientManager }>) {
     super(props);
     this.state = {
-      devices: [],
       supported: Boolean(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices && navigator.mediaDevices.getUserMedia),
     };
   }
 
   private setMediaSrc(el: HTMLMediaElement, srcStream: MediaStream) {
     try {
+      if (this.objUrl) {
+        URL.revokeObjectURL(this.objUrl);
+      }
       this.objUrl = URL.createObjectURL(srcStream);
     } catch (e) {
       console.log("Browser does not accept MediaStream in createObjectURL()");
@@ -53,6 +50,10 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
 
   async componentDidMount() {
     this.props.clientManager.switchClients("usermedia");
+    await this.startVideoStream();
+  }
+
+  private async startVideoStream() {
     if (this.state.supported) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -60,14 +61,14 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
           video: {
             width: {ideal: 1280},
             height: {ideal: 720},
+            deviceId: this.state.selectedVideoDeviceId,
           },
         });
         if (this.video) {
+          this.video.pause();
           this.setMediaSrc(this.video, stream);
           this.video.onloadedmetadata = () => this.video && this.video.play();
         }
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        this.setState({devices});
       } catch (e) {
         this.setState({error: e.message});
       }
@@ -81,6 +82,10 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
     }
   }
 
+  private onSelectVideoDevice = (deviceId: string) => {
+    this.setState({selectedVideoDeviceId: deviceId});
+  };
+
   render() {
     return (
       <div>
@@ -91,13 +96,7 @@ export default class UserMediaSlide extends Component<{ clientManager: ClientMan
               {this.state.error && <div className="error">{this.state.error}</div>}
               <video ref={(v) => (this.video = v)} />
               <div>
-                <select>
-                  {this.state.devices.map((d) => (
-                    <option key={d.deviceId} value={d.deviceId}>
-                      {DEVICE_TYPE_SYMBOLS[d.kind]} {d.label || d.deviceId}
-                    </option>
-                  ))}
-                </select>
+                <MediaDeviceChoice videoIn audioIn={false} audioOut={false} onChange={this.onSelectVideoDevice} />
               </div>
             </Box>
           ) : (

@@ -1,19 +1,14 @@
 import React, {Component} from "react";
 
-export default class SpeechSynthesis extends Component<{ text: string }, { voice: SpeechSynthesisVoice | null; supported: boolean }> {
+export default class SpeechSynthesis extends Component<{ text: string },
+  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean }> {
   constructor(props: Readonly<{ text: string }>) {
     super(props);
-    this.state = {voice: null, supported: "speechSynthesis" in window};
+    this.state = {selectedVoice: null, voices: [], supported: "speechSynthesis" in window};
   }
 
-  loadVoice = () => {
-    const voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      const voice = voices.filter((v) => v.lang.startsWith("en"))[0] || voices[0];
-      this.setState({voice});
-    } else {
-      this.setState({voice: null});
-    }
+  private loadVoice = () => {
+    this.setState({voices: window.speechSynthesis.getVoices(), selectedVoice: null});
   };
 
   componentDidMount() {
@@ -30,11 +25,15 @@ export default class SpeechSynthesis extends Component<{ text: string }, { voice
   }
 
   shouldComponentUpdate(
-    nextProps: Readonly<{ text: string }>,
-    nextState: Readonly<{ voice: SpeechSynthesisVoice | null; supported: boolean }>,
+    nextProps: { text: string },
+    nextState: { selectedVoice: SpeechSynthesisVoice | null; voices: SpeechSynthesisVoice[]; supported: boolean },
     nextContext: any
   ): boolean {
-    return Boolean(this.props.text !== nextProps.text || (this.state.voice && this.state.voice.voiceURI !== nextState.voice?.voiceURI));
+    return Boolean(
+      this.props.text !== nextProps.text ||
+      (this.state.selectedVoice && this.state.selectedVoice.voiceURI !== nextState.selectedVoice?.voiceURI) ||
+      this.state.voices !== nextState.voices
+    );
   }
 
   componentDidUpdate() {
@@ -42,7 +41,7 @@ export default class SpeechSynthesis extends Component<{ text: string }, { voice
   }
 
   speak() {
-    const voice = this.state.voice;
+    const voice = this.state.selectedVoice;
     if (voice) {
       const utterance = new SpeechSynthesisUtterance(this.props.text);
       utterance.voice = voice;
@@ -54,7 +53,18 @@ export default class SpeechSynthesis extends Component<{ text: string }, { voice
     if (this.state.supported) {
       return (
         <div className="slide speech">
-          Your browser can talk to you! {this.state.voice ? `Using ${this.state.voice.voiceURI}.` : "But there are no available voices :("}
+          Your browser can talk to you!
+          {this.state.voices.map((v) => (
+            <div key={v.voiceURI}>
+              <input
+                type="radio"
+                name="voice"
+                value={v.voiceURI}
+                checked={v === this.state.selectedVoice}
+                onChange={(e) => this.setState({selectedVoice: this.state.voices.find((x) => x.voiceURI === v.voiceURI) || null})}
+              />
+            </div>
+          ))}
         </div>
       );
     }
