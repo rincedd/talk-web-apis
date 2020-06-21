@@ -1,12 +1,6 @@
 import React, {Component} from "react";
 import {MediaDeviceChoice} from "./media-device-choice";
 
-const DEVICE_TYPE_SYMBOLS = {
-  audioinput: "🎤",
-  audiooutput: "🔈",
-  videoinput: "🎥",
-};
-
 export default class MediaDevices extends Component<{}, { supported: boolean; selectedVideoDeviceId?: string; error?: string }> {
   private video: HTMLVideoElement | null = null;
   private objUrl?: string;
