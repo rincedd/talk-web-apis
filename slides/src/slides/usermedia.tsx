@@ -53,50 +53,46 @@ export default class UserMediaSlide extends Component<
 
   async componentDidMount() {
     this.props.clientManager.switchClients("usermedia");
+    await this.restartVideo();
+  }
+
+  private async restartVideo() {
     if (this.state.supported) {
+      this.stop();
       try {
         this.stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            width: {ideal: 1280},
+            height: {ideal: 720},
+            deviceId: this.state.selectedVideoDeviceId
           },
         });
         if (this.video) {
-          this.video.pause();
-          this.setMediaSrc(this.video);
           this.video.onloadedmetadata = () => this.video && this.video.play();
+          this.setMediaSrc(this.video);
         }
       } catch (e) {
-        this.setState({ error: e.message });
+        this.setState({error: e.message});
       }
     }
   }
 
-  componentWillUnmount() {
+  private stop() {
     this.video?.pause();
-    if (this.objUrl) {
-      URL.revokeObjectURL(this.objUrl);
-    }
     this.stream?.getTracks().forEach(t => t.stop());
     this.stream = null;
   }
 
-  async switchDevice() {
-    try {
-      const videoTracks = this.stream?.getVideoTracks();
-      if (videoTracks) {
-        for (let track of videoTracks) {
-          await track.applyConstraints({ deviceId: this.state.selectedVideoDeviceId });
-        }
-      }
-    } catch (e) {
-      this.setState({ error: `Failed to switch device [${e.message}]` });
+  componentWillUnmount() {
+    this.stop();
+    if (this.objUrl) {
+      URL.revokeObjectURL(this.objUrl);
     }
   }
 
   private onSelectVideoDevice = (deviceId: string) => {
-    this.setState({ selectedVideoDeviceId: deviceId }, () => this.switchDevice());
+    this.setState({ selectedVideoDeviceId: deviceId }, () => this.restartVideo());
   };
 
   render() {
@@ -105,7 +101,7 @@ export default class UserMediaSlide extends Component<
         <Heading size={3}>user media streams</Heading>
         <FlexBox justifyContent="space-around">
           {this.state.supported ? (
-            <Box width="20%">
+            <Box width="30%">
               {this.state.error && <div className="error">{this.state.error}</div>}
               <video ref={(v) => (this.video = v)} />
               <div>

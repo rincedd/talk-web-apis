@@ -29,45 +29,41 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
   }
 
   async componentDidMount() {
+    await this.restartVideo();
+  }
+
+  private async restartVideo() {
     if (this.state.supported) {
+      this.stop();
       try {
         this.stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            width: {ideal: 1280},
+            height: {ideal: 720},
+            deviceId: this.state.selectedVideoDeviceId
           },
         });
         if (this.video) {
-          this.video.pause();
           this.setMediaSrc(this.video);
           this.video.onloadedmetadata = () => this.video?.play();
         }
       } catch (e) {
-        this.setState({ error: e.message });
+        this.setState({error: e.message});
       }
     }
   }
 
-  componentWillUnmount() {
+  private stop() {
     this.video?.pause();
-    if (this.objUrl) {
-      URL.revokeObjectURL(this.objUrl);
-    }
     this.stream?.getTracks().forEach(t => t.stop());
     this.stream = null;
   }
 
-  async switchDevice() {
-    try {
-      const videoTracks = this.stream?.getVideoTracks();
-      if (videoTracks) {
-        for (let track of videoTracks) {
-          await track.applyConstraints({width: {ideal: 1280}, height: {ideal: 720}, deviceId: this.state.selectedVideoDeviceId});
-        }
-      }
-    } catch (e) {
-      this.setState({ error: `Failed to switch device [${e.message}]` });
+  componentWillUnmount() {
+    this.stop();
+    if (this.objUrl) {
+      URL.revokeObjectURL(this.objUrl);
     }
   }
 
@@ -77,7 +73,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
         <div>MediaDevices API</div>
         <div>
           <MediaDeviceChoice
-            onChange={(deviceId) => this.setState({ selectedVideoDeviceId: deviceId }, () => this.switchDevice())}
+            onChange={(deviceId) => this.setState({ selectedVideoDeviceId: deviceId }, () => this.restartVideo())}
             videoIn
             audioOut={false}
             audioIn={false}

@@ -23,6 +23,10 @@
   min-height: 50%;
 }
 
+video {
+  max-width: 100%;
+}
+
 .node {
   stroke-width: 2px;
   stroke: #777;
