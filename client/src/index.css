@@ -68,6 +68,11 @@ body {
 }
 
 .error {
+  text-align: left;
   background-color: red;
   color: white;
+}
+
+.error pre {
+  font-size: .75em;
 }

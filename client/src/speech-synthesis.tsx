@@ -11,7 +11,8 @@ export default class SpeechSynthesis extends Component<
 
   private loadVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-    this.setState({ voices: voices, selectedVoice: voices[0] || null });
+    const selectedVoice = voices.find(v => v.default === true) || voices[0] || null;
+    this.setState({ voices: voices, selectedVoice });
   };
 
   componentDidMount() {
