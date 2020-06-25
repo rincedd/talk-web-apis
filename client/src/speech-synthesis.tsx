@@ -10,6 +10,8 @@ export default class SpeechSynthesis extends Component<
     error: string | null;
   }
 > {
+  private utterance: SpeechSynthesisUtterance | null = null;
+
   constructor(props: Readonly<{ text: string }>) {
     super(props);
     this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window, speaking: false, error: null };
@@ -49,16 +51,24 @@ export default class SpeechSynthesis extends Component<
   speak() {
     const voice = this.state.selectedVoice;
     if (voice) {
-      const utterance = new SpeechSynthesisUtterance(this.props.text);
-      utterance.voice = voice;
+      this.utterance = new SpeechSynthesisUtterance(this.props.text);
+      this.utterance.voice = voice;
+      this.utterance.lang = this.utterance.voice.lang;
+      this.utterance.text = this.props.text;
 
-      utterance.onstart = () => this.setState({ speaking: true, error: null });
-      utterance.onresume = () => this.setState({ speaking: true, error: null });
-      utterance.onpause = () => this.setState({ speaking: false, error: null });
-      utterance.onend = () => this.setState({ speaking: false, error: null });
-      utterance.onerror = (e) => this.setState({ error: e.error });
+      this.utterance.onstart = () => this.setState({ speaking: true, error: null });
+      this.utterance.onresume = () => this.setState({ speaking: true, error: null });
+      this.utterance.onpause = () => this.setState({ speaking: false, error: null });
+      this.utterance.onend = () => {
+        this.utterance = null;
+        this.setState({speaking: false, error: null});
+      };
+      this.utterance.onerror = (e) => {
+        this.utterance = null;
+        this.setState({error: e.error});
+      };
 
-      window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(this.utterance);
       window.speechSynthesis.resume();
     }
   }
