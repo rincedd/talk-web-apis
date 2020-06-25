@@ -45,6 +45,11 @@ html, body {
   background-color: #aec6b1;
 }
 
+.network {
+  background-color: #6e0364;
+  color: #eeeeee;
+}
+
 .thankyou {
   background-color: #7c4c00;
   color: #eeeeee;

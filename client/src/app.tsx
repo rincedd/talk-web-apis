@@ -6,6 +6,7 @@ import Geolocation from "./geolocation";
 import MediaDevices from "./media-devices";
 import SpeechSynthesis from "./speech-synthesis";
 import WebAudio from "./web-audio";
+import NetworkInfo from "./network";
 
 declare namespace Faye {
   export class Client {
@@ -90,6 +91,8 @@ export default class App extends Component<{}, { page: string; speechSynthesisTe
 
   render() {
     switch (this.state.page) {
+      case "network":
+        return <NetworkInfo/>
       case "battery":
         return <BatteryStatus onChange={(e) => publish("update/battery", { ...e, id: fayeId })} />;
       case "geolocation":

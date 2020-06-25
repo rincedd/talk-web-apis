@@ -1,19 +1,5 @@
 import React from "react";
-import {
-  Box,
-  CodePane,
-  CodeSpan,
-  Deck,
-  FlexBox,
-  Heading,
-  Image,
-  Link,
-  ListItem,
-  Progress,
-  Slide,
-  Text,
-  UnorderedList,
-} from "spectacle";
+import { Box, CodePane, CodeSpan, Deck, FlexBox, Heading, Image, Link, ListItem, Progress, Slide, Text, UnorderedList } from "spectacle";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
@@ -34,18 +20,14 @@ import { SectionTitle } from "./section-title";
 
 import logo from "../assets/tng-logo.svg";
 import browsers from "../assets/browsers.png";
+import NetworkInfoSlide from "./network";
 
 const clientManager = new ClientManager();
 
 // @ts-ignore
 const deckTemplate = ({ slideNumber = 0, numberOfSlides }) => {
   return slideNumber > 0 ? (
-    <FlexBox
-      justifyContent="space-between"
-      position="absolute"
-      bottom={0}
-      width={1}
-    >
+    <FlexBox justifyContent="space-between" position="absolute" bottom={0} width={1}>
       <Box padding="0 1em">
         <Image src={logo} width="35%" />
       </Box>
@@ -63,9 +45,9 @@ const theme = {
     tertiary: "#ffffff",
     quartenary: "#CECECE",
   },
-    space: [12, 20, 28],
+  space: [12, 20, 28],
   size: {
-      maxCodePaneHeight: "500px"
+    maxCodePaneHeight: "500px",
   },
 };
 
@@ -94,10 +76,7 @@ export class Presentation extends React.Component {
             </Box>
             <Box>
               <Text>
-                overview:{" "}
-                <Link href="https://developer.mozilla.org/en-US/docs/Web/API">
-                  MDN
-                </Link>
+                overview: <Link href="https://developer.mozilla.org/en-US/docs/Web/API">MDN</Link>
               </Text>
             </Box>
           </FlexBox>
@@ -161,6 +140,9 @@ document.querySelector('canvas').toBlob(blob => {
           <BatteryStatusSlide clientManager={clientManager} />
         </Slide>
         <Slide>
+          <NetworkInfoSlide clientManager={clientManager} />
+        </Slide>
+        <Slide>
           <UserMediaSlide clientManager={clientManager} />
         </Slide>
         <Slide>
@@ -203,10 +185,7 @@ document.querySelector('canvas').toBlob(blob => {
               cat icon by <Link href="http://iconka.com/">iconka</Link>
             </ListItem>
             <ListItem>
-              crow recording from{" "}
-              <Link href="http://www.xeno-canto.org/348301">
-                xeno-canto.org
-              </Link>
+              crow recording from <Link href="http://www.xeno-canto.org/348301">xeno-canto.org</Link>
             </ListItem>
           </UnorderedList>
         </Slide>

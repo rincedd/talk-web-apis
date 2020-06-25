@@ -20,11 +20,11 @@ export default class BatteryStatusSlide extends Component<{
         <FlexBox padding={0} flexDirection="row" alignItems="stretch" justifyContent="space-around">
           <BubbleChart clientManager={this.props.clientManager} />
           <CodePane
+            indentSize={4}
             language="javascript"
             autoFillHeight
             theme={prismTheme}
-          >{`// promise-based API
-const battery = await navigator.getBattery();
+          >{`const battery = await navigator.getBattery();
 if (battery.charging) {
   console.log('battery is charging');
 }
