@@ -49,8 +49,7 @@ export default class NetworkInfo extends Component<any, { connection: NetworkInf
     if (this.state.connection) {
       return (
         <div className={`slide network ${onlineState}`}>
-          You are {onlineState} and connected via {this.state.connection.type}, effectively
-          {this.state.connection.effectiveType}.
+          You are {onlineState} and connected via {this.state.connection.type}, effectively {this.state.connection.effectiveType}.
         </div>
       );
     }

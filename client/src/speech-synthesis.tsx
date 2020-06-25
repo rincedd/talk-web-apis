@@ -1,14 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
-export default class SpeechSynthesis extends Component<{ text: string },
-  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean }> {
+export default class SpeechSynthesis extends Component<
+  { text: string },
+  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean }
+> {
   constructor(props: Readonly<{ text: string }>) {
     super(props);
-    this.state = {selectedVoice: null, voices: [], supported: "speechSynthesis" in window};
+    this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window };
   }
 
   private loadVoice = () => {
-    this.setState({voices: window.speechSynthesis.getVoices(), selectedVoice: null});
+    const voices = window.speechSynthesis.getVoices();
+    this.setState({ voices: voices, selectedVoice: voices[0] || null });
   };
 
   componentDidMount() {
@@ -31,8 +34,8 @@ export default class SpeechSynthesis extends Component<{ text: string },
   ): boolean {
     return Boolean(
       this.props.text !== nextProps.text ||
-      (this.state.selectedVoice && this.state.selectedVoice.voiceURI !== nextState.selectedVoice?.voiceURI) ||
-      this.state.voices !== nextState.voices
+        (this.state.selectedVoice && this.state.selectedVoice.voiceURI !== nextState.selectedVoice?.voiceURI) ||
+        this.state.voices !== nextState.voices
     );
   }
 
@@ -54,20 +57,16 @@ export default class SpeechSynthesis extends Component<{ text: string },
       return (
         <div className="slide speech">
           Your browser can talk to you!
-          {this.state.voices.map((v) => (
-            <div key={v.voiceURI}>
-              <label>
-                <input
-                  type="radio"
-                  name="voice"
-                  value={v.voiceURI}
-                  checked={v === this.state.selectedVoice}
-                  onChange={(e) => this.setState({selectedVoice: this.state.voices.find((x) => x.voiceURI === v.voiceURI) || null})}
-                />
+          <select
+            value={this.state.selectedVoice?.voiceURI}
+            onChange={(e) => this.setState({ selectedVoice: this.state.voices.find((x) => x.voiceURI === e.target.value) || null })}
+          >
+            {this.state.voices.map((v) => (
+              <option key={v.voiceURI} value={v.voiceURI}>
                 {v.name} [{v.lang}]
-              </label>
-            </div>
-          ))}
+              </option>
+            ))}
+          </select>
         </div>
       );
     }
