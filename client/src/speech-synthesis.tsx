@@ -48,7 +48,7 @@ export default class SpeechSynthesis extends Component<
     }
   }
 
-  speak() {
+  speak = () => {
     const voice = this.state.selectedVoice;
     if (voice) {
       this.utterance = new SpeechSynthesisUtterance(this.props.text);
@@ -59,17 +59,13 @@ export default class SpeechSynthesis extends Component<
       this.utterance.onstart = () => this.setState({ speaking: true, error: null });
       this.utterance.onresume = () => this.setState({ speaking: true, error: null });
       this.utterance.onpause = () => this.setState({ speaking: false, error: null });
-      this.utterance.onend = () => {
-        this.utterance = null;
-        this.setState({speaking: false, error: null});
-      };
-      this.utterance.onerror = (e) => {
-        this.utterance = null;
-        this.setState({error: e.error});
-      };
+      this.utterance.onend = () => this.setState({ speaking: false, error: null });
+      this.utterance.onerror = (e) => this.setState({ error: e.error });
 
       window.speechSynthesis.speak(this.utterance);
-      window.speechSynthesis.resume();
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
     }
   }
 
@@ -89,6 +85,7 @@ export default class SpeechSynthesis extends Component<
             ))}
           </select>
           {this.state.error && <div className="error">Error: {this.state.error}</div>}
+          <button onClick={this.speak}>Speak</button>
         </div>
       );
     }
