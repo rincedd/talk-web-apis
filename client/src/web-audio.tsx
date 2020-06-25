@@ -37,25 +37,23 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
     xhr.open("GET", AUDIO_FILE, true);
     xhr.responseType = "arraybuffer";
 
-    xhr.onload = async () => {
+    xhr.onload = () => {
       const audioData = xhr.response;
 
-      try {
-        this.audioCtx?.decodeAudioData(
-          audioData,
-          (buffer) => {
-            if (this.source) {
-              this.source.buffer = buffer || null;
-              this.source.loop = true;
-            }
-          },
-          (err) => {
-            this.setState({ error: `Error decoding audio data [${err.message}]` });
+      this.audioCtx?.decodeAudioData(
+        audioData,
+        (buffer) => {
+          if (this.source) {
+            this.source.stop(0);
+            this.source.buffer = buffer || null;
+            this.source.loop = true;
+            this.source.start(0);
           }
-        );
-      } catch (e) {
-        this.setState({ error: `Error decoding audio data [${e.message}]` });
-      }
+        },
+        (err) => {
+          this.setState({ error: `Error decoding audio data [${err.message}]` });
+        }
+      );
     };
 
     xhr.send();
