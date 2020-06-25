@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 export default class SpeechSynthesis extends Component<
   { text: string },
-  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean }
+  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean; speaking: boolean }
 > {
   constructor(props: Readonly<{ text: string }>) {
     super(props);
-    this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window };
+    this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window, speaking: false };
   }
 
   private loadVoice = () => {
@@ -30,20 +30,14 @@ export default class SpeechSynthesis extends Component<
     }
   }
 
-  shouldComponentUpdate(
-    nextProps: { text: string },
-    nextState: { selectedVoice: SpeechSynthesisVoice | null; voices: SpeechSynthesisVoice[]; supported: boolean },
-    nextContext: any
-  ): boolean {
-    return Boolean(
-      this.props.text !== nextProps.text ||
-        (this.state.selectedVoice && this.state.selectedVoice.voiceURI !== nextState.selectedVoice?.voiceURI) ||
-        this.state.voices !== nextState.voices
-    );
-  }
-
-  componentDidUpdate() {
-    this.speak();
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (
+      this.props.text !== prevProps.text ||
+      (this.state.selectedVoice && this.state.selectedVoice.voiceURI !== prevState.selectedVoice?.voiceURI) ||
+      this.state.voices !== prevState.voices
+    ) {
+      this.speak();
+    }
   }
 
   speak() {
@@ -51,7 +45,16 @@ export default class SpeechSynthesis extends Component<
     if (voice) {
       const utterance = new SpeechSynthesisUtterance(this.props.text);
       utterance.voice = voice;
+
+      utterance.onstart = () => this.setState({ speaking: true });
+      utterance.onresume = () => this.setState({ speaking: true });
+      utterance.onpause = () => this.setState({ speaking: false });
+      utterance.onend = () => this.setState({ speaking: false });
+
       window.speechSynthesis.speak(utterance);
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
     }
   }
 
@@ -59,7 +62,7 @@ export default class SpeechSynthesis extends Component<
     if (this.state.supported) {
       return (
         <div className="slide speech">
-          Your browser can talk to you!
+          Your browser can talk to you! [{this.state.speaking ? "speaking" : "paused"}]
           <select
             value={this.state.selectedVoice?.voiceURI}
             onChange={(e) => this.setState({ selectedVoice: this.state.voices.find((x) => x.voiceURI === e.target.value) || null })}
