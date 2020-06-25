@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Feature-Policy = "accelerometer 'self'; ambient-light-sensor 'self'; battery 'self'; camera 'self'; fullscreen 'self'; geolocation 'self'; gyroscope 'self'; magnetometer 'self'; microphone 'self'; vibrate 'self'; wake-lock 'self'"
