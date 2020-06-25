@@ -12,6 +12,8 @@
 .btn {
   padding: 16px;
   font-size: 1.5em;
+  max-width: 60ch;
+  margin: .5ex;
 }
 
 .bubble-chart {

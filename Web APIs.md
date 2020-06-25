@@ -1,20 +1,20 @@
 ## demo in talk
 * WebSockets ;-)
 * battery (/)
-* vibrate
+* vibrate (/)
 * speech synthesis (say hello to everyone) (/)
-* web audio (analyzer display, play collective chord?)
+* web audio (analyzer display) (/)
+* network information (/)
 * clipboard
-* network information (not on Safari)
 
 # Web APIs
 ## useful
-* geolocation (https needed!) (/)
-* battery
+* geolocation
+* battery (but deprecated)
 * File
 
 ## interesting
-* user media (video/audio), but not on mobile
+* user media (video/audio)
 * notifications (not on mobile)
 * push notifications
 * beacon
@@ -34,7 +34,7 @@
 
 ## funky
 * vibrate
-* speech synthesis? 
+* speech synthesis?
 * device motion/orientation (?)
 * proximity (?)
 * ambient light

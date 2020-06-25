@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { ClientManager } from "./client-manager";
+import React, {Component} from "react";
+import {ClientManager} from "./client-manager";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 import {CodePane, Heading} from "spectacle";
@@ -21,10 +21,13 @@ export default class NetworkInfoSlide extends Component<{
   }
 
   render() {
+    // @ts-ignore
+    const effectiveType = navigator.connection?.effectiveType;
     return (
       <>
         <Heading>Network Information</Heading>
         <CodePane autoFillHeight language="javascript" theme={prismTheme}>{example}</CodePane>
+        <p>Your connection is effectively {effectiveType}.</p>
       </>
     );
   }

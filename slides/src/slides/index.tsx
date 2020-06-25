@@ -21,6 +21,7 @@ import { SectionTitle } from "./section-title";
 import logo from "../assets/tng-logo.svg";
 import browsers from "../assets/browsers.png";
 import NetworkInfoSlide from "./network";
+import ClientSideFileHandling from "./client-side-file-handling";
 
 const clientManager = new ClientManager();
 
@@ -124,6 +125,7 @@ document.querySelector('canvas').toBlob(blob => {
 
           `}</CodePane>
         </Slide>
+        <Slide><ClientSideFileHandling/></Slide>
         <Slide>
           <SectionTitle>notify the user</SectionTitle>
         </Slide>

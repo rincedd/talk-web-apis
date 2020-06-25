@@ -1,17 +1,22 @@
-import React, {Component} from 'react';
-import {Text} from 'spectacle';
-import {ClientManager} from "./client-manager";
+import React, { Component } from "react";
+import { Heading } from "spectacle";
+import { ClientManager } from "./client-manager";
 
-export default class MiscSlide extends Component<{clientManager: ClientManager}> {
+export default class MiscSlide extends Component<{ clientManager: ClientManager }> {
   componentDidMount() {
-    this.props.clientManager.switchClients('misc');
+    this.props.clientManager.switchClients("sensors");
   }
 
   render() {
-    return <div>
-      <Text>
-        <button onClick={() => this.props.clientManager.triggerVibrate()}>Vibrate!</button>
-      </Text>
-    </div>
+    return (
+      <>
+        <Heading>Device feedback/sensors</Heading>
+        <div style={{ margin: "0 auto" }}>
+          <button className="btn" onClick={() => this.props.clientManager.triggerVibrate()}>
+            Vibrate!
+          </button>
+        </div>
+      </>
+    );
   }
 }
