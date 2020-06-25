@@ -67,6 +67,14 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
     }
   }
 
+  togglePlayback = () => {
+    if (this.video?.paused) {
+      this.video.play();
+    } else {
+      this.video?.pause();
+    }
+  }
+
   render() {
     return (
       <div className="slide media-devices">
@@ -80,7 +88,7 @@ export default class MediaDevices extends Component<{}, { supported: boolean; se
           />
         </div>
         {this.state.error && <div className="error">{this.state.error}</div>}
-        <video width="600" ref={(v) => (this.video = v)} />
+        <video onClick={() => this.togglePlayback()} controls={false} width="600" ref={(v) => (this.video = v)} />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 const AUDIO_FILE = "/client/XC348301.mp3";
 
@@ -11,7 +11,7 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
 
   constructor(props: Readonly<{}>) {
     super(props);
-    this.state = {supported: "AudioContext" in window || "webkitAudioContext" in window};
+    this.state = { supported: "AudioContext" in window || "webkitAudioContext" in window };
   }
 
   componentDidMount() {
@@ -41,12 +41,20 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
       const audioData = xhr.response;
 
       try {
-        if (this.source) {
-          this.source.buffer = (await this.audioCtx?.decodeAudioData(audioData)) || null;
-          this.source.loop = true;
-        }
+        this.audioCtx?.decodeAudioData(
+          audioData,
+          (buffer) => {
+            if (this.source) {
+              this.source.buffer = buffer || null;
+              this.source.loop = true;
+            }
+          },
+          (err) => {
+            this.setState({ error: `Error decoding audio data [${err.message}]` });
+          }
+        );
       } catch (e) {
-        this.setState({error: `Error decoding audio data [${e.message}]`});
+        this.setState({ error: `Error decoding audio data [${e.message}]` });
       }
     };
 
