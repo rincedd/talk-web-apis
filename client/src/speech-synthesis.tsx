@@ -2,11 +2,17 @@ import React, { Component } from "react";
 
 export default class SpeechSynthesis extends Component<
   { text: string },
-  { voices: SpeechSynthesisVoice[]; selectedVoice: SpeechSynthesisVoice | null; supported: boolean; speaking: boolean }
+  {
+    voices: SpeechSynthesisVoice[];
+    selectedVoice: SpeechSynthesisVoice | null;
+    supported: boolean;
+    speaking: boolean;
+    error: string | null;
+  }
 > {
   constructor(props: Readonly<{ text: string }>) {
     super(props);
-    this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window, speaking: false };
+    this.state = { selectedVoice: null, voices: [], supported: "speechSynthesis" in window, speaking: false, error: null };
   }
 
   private loadVoice = () => {
@@ -46,15 +52,14 @@ export default class SpeechSynthesis extends Component<
       const utterance = new SpeechSynthesisUtterance(this.props.text);
       utterance.voice = voice;
 
-      utterance.onstart = () => this.setState({ speaking: true });
-      utterance.onresume = () => this.setState({ speaking: true });
-      utterance.onpause = () => this.setState({ speaking: false });
-      utterance.onend = () => this.setState({ speaking: false });
+      utterance.onstart = () => this.setState({ speaking: true, error: null });
+      utterance.onresume = () => this.setState({ speaking: true, error: null });
+      utterance.onpause = () => this.setState({ speaking: false, error: null });
+      utterance.onend = () => this.setState({ speaking: false, error: null });
+      utterance.onerror = (e) => this.setState({ error: e.error });
 
       window.speechSynthesis.speak(utterance);
-      if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-      }
+      window.speechSynthesis.resume();
     }
   }
 
@@ -73,6 +78,7 @@ export default class SpeechSynthesis extends Component<
               </option>
             ))}
           </select>
+          {this.state.error && <div className="error">Error: {this.state.error}</div>}
         </div>
       );
     }
