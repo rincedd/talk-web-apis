@@ -11,19 +11,21 @@ export default class SpeechSynthesis extends Component<
 
   private loadVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-    const selectedVoice = voices.find(v => v.default === true) || voices[0] || null;
+    const selectedVoice = voices.find((v) => v.default === true) || voices[0] || null;
     this.setState({ voices: voices, selectedVoice });
   };
 
   componentDidMount() {
     if (this.state.supported) {
-      window.speechSynthesis.addEventListener("voiceschanged", this.loadVoice);
+      if ("addEventListener" in window.speechSynthesis) {
+        window.speechSynthesis.addEventListener("voiceschanged", this.loadVoice);
+      }
       this.loadVoice();
     }
   }
 
   componentWillUnmount() {
-    if (this.state.supported) {
+    if (this.state.supported && "addEventListener" in window.speechSynthesis) {
       window.speechSynthesis.removeEventListener("voiceschanged", this.loadVoice);
     }
   }
