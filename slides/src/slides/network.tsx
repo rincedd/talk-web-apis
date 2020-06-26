@@ -25,7 +25,7 @@ export default class NetworkInfoSlide extends Component<{
     const effectiveType = navigator.connection?.effectiveType;
     return (
       <>
-        <Heading>Network Information</Heading>
+        <Heading>network information</Heading>
         <CodePane autoFillHeight language="javascript" theme={prismTheme}>{example}</CodePane>
         <p>Your connection is effectively {effectiveType}.</p>
       </>

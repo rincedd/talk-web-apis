@@ -10,7 +10,7 @@ export default class MiscSlide extends Component<{ clientManager: ClientManager 
   render() {
     return (
       <>
-        <Heading>Device feedback/sensors</Heading>
+        <Heading>device feedback/sensors</Heading>
         <div style={{ margin: "0 auto" }}>
           <button className="btn" onClick={() => this.props.clientManager.triggerVibrate()}>
             Vibrate!

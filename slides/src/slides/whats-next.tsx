@@ -10,7 +10,7 @@ export default class WhatsNextSlide extends Component<{ clientManager: ClientMan
   render() {
     return (
       <>
-        <Heading>And much more...</Heading>
+        <Heading>and much more...</Heading>
         <UnorderedList margin="20px auto" style={{ width: "80%" }}>
           <ListItem>
             <Link href="https://devdocs.io/dom/webgl_api">WebGL</Link>3D rendering contexts
