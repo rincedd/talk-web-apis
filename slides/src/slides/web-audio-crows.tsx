@@ -1,14 +1,17 @@
-import React, {Component} from 'react';
-import {Image} from 'spectacle';
-import {ClientManager} from "./client-manager";
+import React, { Component } from "react";
+import { FlexBox, Image } from "spectacle";
+import { ClientManager } from "./client-manager";
 
-export default class CrowsSlide extends Component<{clientManager: ClientManager}> {
-
+export default class CrowsSlide extends Component<{ clientManager: ClientManager }> {
   componentDidMount() {
-    this.props.clientManager.switchClients('webaudio');
+    this.props.clientManager.switchClients("webaudio");
   }
 
   render() {
-    return <Image src={require('../assets/web-audio-crow.svg')}/>;
+    return (
+      <FlexBox height="100%" justifyContent="space-around" alignItems="center">
+        <Image src={require("../assets/web-audio-crow.svg")} />
+      </FlexBox>
+    );
   }
 }

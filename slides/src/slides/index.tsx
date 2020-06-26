@@ -164,9 +164,7 @@ export class Presentation extends React.Component {
             <ListItem>
               <CodeSpan>File, FileReader, createObjectURL()</CodeSpan>
             </ListItem>
-            <ListItem>
-              web workers for expensive computations
-            </ListItem>
+            <ListItem>web workers for expensive computations</ListItem>
           </UnorderedList>
         </Slide>
         <Slide>
@@ -219,7 +217,7 @@ document.querySelector('canvas').toBlob(blob => {
           <MiscSlide clientManager={clientManager} />
         </Slide>
         <Slide>
-          <SectionTitle>go crazy</SectionTitle>
+          <SectionTitle>niche APIs</SectionTitle>
         </Slide>
         <Slide>
           <SpeechSynthesisSlide clientManager={clientManager} />
@@ -231,11 +229,28 @@ document.querySelector('canvas').toBlob(blob => {
           <CrowsSlide clientManager={clientManager} />
         </Slide>
         <Slide>
+          <Heading>Other useful (?) APIs</Heading>
+          <UnorderedList margin="20px auto" style={{ width: "80%" }}>
+            <ListItem>
+              <Link href="https://developer.mozilla.org/en-US/docs/Web/API/MIDIAccess">WebMIDI</Link>🎘 MIDI, yay!
+            </ListItem>
+            <ListItem>
+              <Link href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API">Gamepad API</Link>🎮 use game controllers!
+            </ListItem>
+            <ListItem>
+              <Link href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API">WebBluetooth</Link>access Bluetooth devices
+            </ListItem>
+          </UnorderedList>
+        </Slide>
+        <Slide>
           <WhatsNextSlide clientManager={clientManager} />
         </Slide>
         <Slide>
+          <SectionTitle>?!</SectionTitle>
+        </Slide>
+        <Slide>
           <Heading>Links</Heading>
-          <UnorderedList>
+          <UnorderedList margin="20px auto" style={{ width: "90%" }}>
             <ListItem>
               <Link href="http://devdocs.io/dom/">devdocs.io/dom</Link>
             </ListItem>
@@ -246,18 +261,15 @@ document.querySelector('canvas').toBlob(blob => {
               <Link href="http://caniuse.com/">caniuse.com</Link>
             </ListItem>
             <ListItem>
-              <Link href="https://www.html5rocks.com">html5rocks.com</Link>
+              <Link href="https://developers.google.com/web">Google Web Fundamentals</Link>(former html5rocks.com)
             </ListItem>
             <ListItem>
-              cat icon by <Link href="http://iconka.com/">iconka</Link>
+              cat icon by<Link href="http://iconka.com/">iconka</Link>
             </ListItem>
             <ListItem>
-              crow recording from <Link href="http://www.xeno-canto.org/348301">xeno-canto.org</Link>
+              crow recording from<Link href="http://www.xeno-canto.org/348301">xeno-canto.org</Link>
             </ListItem>
           </UnorderedList>
-        </Slide>
-        <Slide>
-          <SectionTitle>?</SectionTitle>
         </Slide>
       </Deck>
     );

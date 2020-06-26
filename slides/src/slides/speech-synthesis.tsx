@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
-import {Heading} from 'spectacle';
+import {CodePane, Heading} from 'spectacle';
 import {ClientManager} from "./client-manager";
+// @ts-ignore
+import prismTheme from "prism-react-renderer/themes/nightOwlLight";
+
+const example = `const voices = window.speechSynthesis.getVoices();
+const utterance = new SpeechSynthesisUtterance('Hi there!');
+utterance.voice = voices[0];
+
+window.speechSynthesis.speak(utterance);
+`;
 
 export default class SpeechSynthesisSlide extends Component<{clientManager: ClientManager}> {
   private input: HTMLInputElement | null = null;
@@ -17,12 +26,13 @@ export default class SpeechSynthesisSlide extends Component<{clientManager: Clie
   }
 
   render() {
-    return <div>
-      <Heading lineHeight={1.1} size={3}>speech synthesis API</Heading>
-      <form onSubmit={e => this._onFormSubmit(e)}>
-        <input type="text" ref={i => this.input = i} />
+    return <>
+      <Heading>speech synthesis API</Heading>
+      <CodePane autoFillHeight language="javascript" indentSize={4} theme={prismTheme}>{example}</CodePane>
+      <form style={{margin: "20px 0"}} onSubmit={e => this._onFormSubmit(e)}>
+        <input style={{width: "50%"}} placeholder="e.g., hello world!" type="text" ref={i => this.input = i} />
         <button type="submit">Say it</button>
       </form>
-    </div>;
+    </>;
   }
 }

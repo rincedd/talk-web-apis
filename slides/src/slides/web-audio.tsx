@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { CodePane, Box, Heading, Image, FlexBox } from "spectacle";
+import React, {Component} from "react";
+import {CodePane, FlexBox, Heading, Image} from "spectacle";
 // @ts-ignore
 import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
@@ -22,7 +22,7 @@ export default class WebAudioSlide extends Component<{}, { playing: boolean }> {
     this.oscillator.frequency.value = 440;
 
     this.gainNode = this.ctx.createGain();
-    this.gainNode.gain.value = 2;
+    this.gainNode.gain.value = 1.2;
 
     this.oscillator.connect(this.gainNode);
     this.gainNode.connect(this.ctx.destination);
@@ -51,20 +51,16 @@ export default class WebAudioSlide extends Component<{}, { playing: boolean }> {
 
   render() {
     return (
-      <div>
+      <>
         <Heading size={3}>WebAudio</Heading>
-        <Image src="https://mdn.mozillademos.org/files/12241/webaudioAPI_en.svg" />
-        <FlexBox>
-          <Box>
-            <button
-              style={{ marginTop: "2rem" }}
-              onClick={() => this.handlePlayClick()}
-            >
+        <FlexBox justifyContent="space-around">
+          <div>
+            <div><Image width="600px" src="https://mdn.mozillademos.org/files/12241/webaudioAPI_en.svg" /></div>
+            <button className="btn" style={{ marginTop: "2rem" }} onClick={() => this.handlePlayClick()}>
               {this.state.playing ? "Pause" : "Play"}
             </button>
-          </Box>
-          <Box>
-            <CodePane language="javascript" autoFillHeight theme={prismTheme}>{`
+          </div>
+          <CodePane language="javascript" autoFillHeight theme={prismTheme} indentSize={4}>{`
 const ctx = new AudioContext();
 
 const oscillator = ctx.createOscillator();
@@ -72,16 +68,15 @@ oscillator.type = 'sine';
 oscillator.frequency.value = 440;
 
 const gainNode = ctx.createGain();
-gainNode.gain.value = 2;
+gainNode.gain.value = 1.5;
 
 oscillator.connect(gainNode);
 gainNode.connect(ctx.destination);
 
 oscillator.start();
           `}</CodePane>
-          </Box>
         </FlexBox>
-      </div>
+      </>
     );
   }
 }
