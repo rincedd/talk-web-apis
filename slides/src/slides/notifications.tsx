@@ -5,14 +5,13 @@ import prismTheme from "prism-react-renderer/themes/nightOwlLight";
 
 import { ClientManager } from "./client-manager";
 
-const example = `Notification.requestPermission().then(result => {
-  if (result === 'granted') {
-    new Notification('New message', {
-      icon: '/images/new-message-icon.png',
-      body: 'You have 5 unread messages.'
-    });
-  }
-});`;
+const example = `const permission = await Notification.requestPermission();
+if (permission === 'granted') {
+  new Notification('New message', {
+    icon: '/images/new-message-icon.png',
+    body: 'You have 5 unread messages.'
+  });
+}`;
 
 export default class NotificationsSlide extends Component<{ clientManager: ClientManager }, { notificationsAllowed: boolean }> {
   constructor(props: Readonly<{ clientManager: ClientManager }>) {
@@ -20,12 +19,11 @@ export default class NotificationsSlide extends Component<{ clientManager: Clien
     this.state = { notificationsAllowed: false };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.clientManager.switchClients("notifications");
     if ("Notification" in window) {
-      window.Notification.requestPermission().then((result) => {
-        this.setState({ notificationsAllowed: result === "granted" });
-      });
+      const permission = await window.Notification.requestPermission();
+      this.setState({ notificationsAllowed: permission === "granted" });
     }
   }
 
@@ -43,7 +41,7 @@ export default class NotificationsSlide extends Component<{ clientManager: Clien
           system-level popup notifications
         </Heading>
         <Box m="25px 0">
-          <CodePane language="javascript" autoFillHeight theme={prismTheme}>
+          <CodePane indentSize={4} language="javascript" autoFillHeight theme={prismTheme}>
             {example}
           </CodePane>
         </Box>

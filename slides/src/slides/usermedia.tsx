@@ -111,8 +111,8 @@ export default class UserMediaSlide extends Component<
           ) : (
             <Box>not supported/permitted</Box>
           )}
-          <Box width="70%">
-            <CodePane autoFillHeight language="javascript" theme={prismTheme}>
+          <Box width="65%">
+            <CodePane autoFillHeight language="javascript" theme={prismTheme} indentSize={4}>
               {example}
             </CodePane>
           </Box>

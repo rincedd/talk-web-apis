@@ -171,26 +171,22 @@ export class Presentation extends React.Component {
         </Slide>
         <Slide>
           <Heading>reading/generating files</Heading>
-          <CodePane autoFillHeight indentSize={4} language="javascript" theme={prismTheme}>{`
-// get file from <input> element
-const file = document.querySelector('#my-input').files[0];
+          <CodePane autoFillHeight indentSize={4} language="javascript" theme={prismTheme}>{`const reader = new FileReader();
 
-const reader = new FileReader();
-
-reader.on('loadend', () => {
+reader.onloadend = () => {
   const numWords = reader.result.split(/\\s+/).length;
   console.log(\`\${numWords} words found in \${file.name}\`);
-});
+};
 
+const file = document.querySelector('#my-input').files[0];
 reader.readAsText(file);
 
+// ---
 // download contents of my fancy <canvas> drawing as image
 document.querySelector('canvas').toBlob(blob => {
   const url = URL.createObjectURL(blob);
   location.assign(url);
-});
-
-          `}</CodePane>
+});`}</CodePane>
         </Slide>
         <Slide>
           <ClientSideFileHandling />
