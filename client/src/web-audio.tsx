@@ -28,7 +28,6 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
     this.analyser.fftSize = 2048;
     this.loadAudioData();
     this._startOscilloscope();
-    this.source.start(0);
   }
 
   loadAudioData() {
@@ -116,8 +115,12 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame);
     }
-    this.source?.stop(0);
-    this.audioCtx?.close();
+    try {
+      this.source?.stop(0);
+      this.audioCtx?.close();
+    } catch (e) {
+      console.error(`Error during unmounting: ${e.message}`);
+    }
   }
 
   render() {
