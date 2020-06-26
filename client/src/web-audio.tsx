@@ -21,9 +21,7 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
     // TODO need user interaction before audio context is allowed to start
     // @ts-ignore
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    this.source = this.audioCtx.createBufferSource();
     this.analyser = this.audioCtx.createAnalyser();
-    this.source.connect(this.analyser);
     this.analyser.connect(this.audioCtx.destination);
     this.analyser.fftSize = 2048;
     this.loadAudioData();
@@ -42,10 +40,11 @@ export default class WebAudio extends Component<{}, { supported: boolean; error?
       this.audioCtx?.decodeAudioData(
         audioData,
         (buffer) => {
-          if (this.source) {
-            this.source.stop(0);
+          if (this.audioCtx && this.analyser) {
+            this.source = this.audioCtx.createBufferSource();
             this.source.buffer = buffer || null;
             this.source.loop = true;
+            this.source.connect(this.analyser);
             this.source.start(0);
           }
         },
