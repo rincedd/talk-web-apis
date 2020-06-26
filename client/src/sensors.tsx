@@ -58,6 +58,10 @@ interface SensorsState {
   error: Error | null;
 }
 
+function s(value: number): string {
+  return value.toFixed(3);
+}
+
 export default class Sensors extends Component<any, SensorsState> {
   private ambientLightSensor?: AmbientLightSensor;
   private accelerometer?: Accelerometer;
@@ -179,21 +183,21 @@ export default class Sensors extends Component<any, SensorsState> {
         )}
         {accelerometer.supported ? (
           <div>
-            Current acceleration: [{accelerometer.x}, {accelerometer.y}, {accelerometer.z}]
+            Current acceleration: [{s(accelerometer.x)}, {s(accelerometer.y)}, {s(accelerometer.z)}]
           </div>
         ) : (
           <div>Accelerometer access not supported/permitted.</div>
         )}
         {gyroscope.supported ? (
           <div>
-            Current angular velocity: [{gyroscope.x}, {gyroscope.y}, {gyroscope.z}]
+            Current angular velocity: [{s(gyroscope.x)}, {s(gyroscope.y)}, {s(gyroscope.z)}]
           </div>
         ) : (
           <div>Gyroscope access not supported/permitted.</div>
         )}
         {magnetometer.supported ? (
           <div>
-            Current magnetic field: [{magnetometer.x}, {magnetometer.y}, {magnetometer.z}]
+            Current magnetic field: [{s(magnetometer.x)}, {s(magnetometer.y)}, {s(magnetometer.z)}]
           </div>
         ) : (
           <div>Magnetometer access not supported/permitted.</div>
